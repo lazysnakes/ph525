@@ -1,0 +1,58 @@
+Week 3 Inference Assessment
+==========================================
+
+# Question 1:
+
+We obtain gene expression data for one gene from several mice from each of two strains. We perform a t-test for a difference in average between the two strains and obtain a p-value of 0.06. What does this mean?
+
+### Answer: If we assume there is no difference, the probablyility of a t-statistic being as large or larger than what we observed is 0.06.
+
+# Question 2:
+
+To obtain the p-value above we used the central limit approximation. Suppose we don't wan to assume this asymptotic result holds. What else can we do to obtain a p-value?
+
+### Answer: Perform a permutation test
+
+# Question 3:
+
+Assume we have 10 independent random variables that follow the normal distribution with average=0 and sd=1. We want to compute the median of the 10 random variables. The median of the 10 random variables is
+
+### Answer: a random variable
+
+# Question 4:
+
+Perform a Monte Carlo simulation by repeating the above (computing the median of 10 normally distributed numbers with average=0 and sd=1) 1,000 times. ( Hint: use the R functions rnorm() and replicate() ) You now have 1,000 medians. The standard deviation of these 1,000 numbers is likely to be between
+
+Work:
+
+```{r}
+# rnorm(10,0,1) -> n=10, mean=0, sd=1, this is also default, could do rnorm(10)
+
+dat <- replicate(1000, rnorm(10, 0, 1))
+sd(dat)
+
+```
+
+### Answer 0.3 - 0.4
+
+# Question 5:
+
+What best approximates the distribution of 1,000 medians of 10 random normal variables?
+
+Work:
+
+```{r}
+hist(dat)
+qqnorm(dat)
+```
+
+### Answer: Normal Distribution
+
+# Question 6:
+
+If we are tossing a die and adding up the number of sixes we see. The following statements are all true, but only one of them is a result of the Central Limit Theorem. Pick the statement that follows from the Central Limit Theorem. If we toss 120 die,
+
+### Answer: The number of sixes will approximately follow a normal distribution
+
+Explanation:
+The Central Limit Theorem tells us about the distribution of the sum of independent and identically distributed random variables, and that this distribution tends to a normal distribution. It is not related to the fact that the expected number of sixes is 20, or that the expected ratio is 1/6.

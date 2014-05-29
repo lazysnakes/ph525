@@ -1,2 +1,6 @@
 *.Rhistory
 *.Rproj.user
+*.RData
+*.png
+*.jpg
+*.jpeg
