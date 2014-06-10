@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Exploratory Data Analysis</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Exploratory Data Analysis</h1>
+
+<p>Biases, systematic errors and unexpected variability are common in genomics data. Failure to discover these problems often leads to flawed analyses and false discoveries. As an example, consider that experiments sometimes fail and not all data processing pipelines are designed to detect these. Yet, these pipelines still give you an answer and the from the final results it may be hard or impossible to notice an error was made. In later modules we will cover many other examples. </p>
+
+<p>Graphing data is a powerful approach to detecting these problems. We refer to this as <em>exploratory data analyis</em> (EDA). Many important methodological contributions to genomics data analysis were initiated as discovery made via EDA. We will show some useful exploratory plots for gene expression data measured with microarrays and NGS. We start with a general introduction to EDA using height data.</p>
+
+<h2>Histograms</h2>
+
+<p>We can think of any given dataset as a list of numbers. Suppose you have measured the heights of all men in a population. Imagine you have need to describe these numbers to someone that has no idea what these heights are, say an alien that has never visited earth. </p>
+
+<pre><code class="r">library(UsingR)
+x = father.son$fheight
+</code></pre>
+
+<p>One approach is to simply list out all the numbers for the alien to see. Here are 100 randomly selected heights of 1,078.</p>
+
+<pre><code class="r">round(sample(x, 20), 1)
+</code></pre>
+
+<pre><code>##  [1] 65.4 69.5 65.9 68.7 72.0 70.5 65.5 68.8 69.4 65.0 59.5 69.1 67.8 69.4
+## [15] 68.1 65.9 66.1 70.2 66.2 67.6
+</code></pre>
+
+<p>From scanning through these numbers we start getting a rough idea of what the entire list looks like but it certainly inefficient. We can quickly improve on this approach by creating bins, say by rounding each value to its nearest integer, and reporting the number of individuals in each bin. A plot of these heights is called a histogram</p>
+
+<pre><code class="r">hist(x, breaks = seq(floor(min(x)), ceiling(max(x))), main = &quot;&quot;, xlab = &quot;Height&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk histogram"/> </p>
+
+<p>Showing this plot to the alien is much more informative than showing the numbers. Note that with this simple plot we can approximate the number of individuals in any given interval. For example, there are about 70 individuals over six feet (72 inches) tall. </p>
+
+<pre><code class="r">xs &lt;- seq(floor(min(x)), ceiling(max(x)), 0.1)
+plot(xs, ecdf(x)(xs), type = &quot;l&quot;, xlab = &quot;x=Height&quot;, ylab = &quot;F(x)&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-2"/> </p>
+
+<h2>Normal approximation</h2>
+
+<p>If instead of the total numbers we report the proportions, then the histogram is a probability distribution. The probability distribution we see above approximates one that is very common in a nature: the bell curve or normal distribution or Gaussian distribution. When the histogram of a list of numbers approximates the normal distribution we can use a convenient mathematical formula to approximate the proportion of individuals in any given interval</p>
+
+<p>\[ 
+\mbox{Pr}(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi\sigma}} \exp{\left( \frac{x-\mu}{\sigma} \right)^2} \, dx
+ \]</p>
+
+<p>Here \( \mu \) and \( \sigma \) are refereed to as the mean and standard deviation. If this approximation holds for our list then the population mean and variance of our list can be used in the formula above. To see this with an example remember that above we noted that 70 individuals or 6% of our population were taller than 6 feet. The normal approximation works well:</p>
+
+<pre><code class="r">1 - pnorm(72, mean(x), sd(x))
+</code></pre>
+
+<pre><code>## [1] 0.05806
+</code></pre>
+
+<p>A very useful characteristic of this approximation is that one only needs to know \( \mu \) and \( \sigma \) to describe the entire distribution. All we really have to tell our alien friend is that heights follow a normal distribution with average height 68&#39;&#39; and a standard deviation of 3&#39;&#39;. From this we can compute the proportion of individuals in any interval. </p>
+
+<h2>QQ-plot</h2>
+
+<p>To corroborate that the normal distribution is in fact a good approximation we can use quantile-quantile plots. Quantiles are best understood by considering the special case of percentiles. The p-th percentile of a list of a distribution is defined as the number q that is bigger than p% of numbers. For example, the median 50-th percentile is the median. We can compute the percentiles for our list and for the normal distribution</p>
+
+<pre><code class="r">ps &lt;- seq(0.01, 0.99, 0.01)
+qs &lt;- quantile(x, ps)
+normalqs &lt;- qnorm(ps, mean(x), sd(x))
+plot(normalqs, qs, xlab = &quot;Normal percentiles&quot;, ylab = &quot;Height percentiles&quot;)
+abline(0, 1)  ##identity line
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<p>Note how close these values are. Also note that we can do same with less code</p>
+
+<pre><code class="r">qqnorm(x)
+qqline(x)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAk1BMVEX9/v0AAAAAADkAAGUAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OWU5OY85ZrU5j485j9plAABlADllAGVlOQBlZgBlZjlltf2POQCPOTmPOWWPZgCPjzmPj2WPtY+P29qP2/21ZgC1tWW124+1/rW1/v3ajznatWXa24/a/rXa/v39tWX9tY/924/929r9/rX9/tr9/v2np8o4AAAAMXRSTlP///////////////////////////////////////////////////////////////8AH5pOIQAAAAlwSFlzAAALEgAACxIB0t1+/AAAEOdJREFUeJztnQ1j4rgRhk+kubDbXMPmrrDXaxfuCr0NpeD//+tq+QNssEHW52jmfTYbYoxl0JORRo5l/1AAkfyQ+g2ANEC8UCBeKBAvFIgXCsQLBeKFAvFCgXihQLxQIF4oEC8UiBcKxAsF4oUC8UKBeKFAvFAgXigQLxSIFwrECwXihQLxQoF4oTAUf1yoZVGcVk9boxe3LzutlFLPH+c1veWyTM2y8/qKzdLb244MT/Glr6niD/NK7WzdrOgvN+Jn6774jYJ4OmhJb434ndI/lwuzv6vZP9WPK/W03enILfa11VZkGd8vhTbZxPjV8nGhHzfqrX59XWzVJrwk+5xusBT/9MvTthK/qeL0pWm2/6NanrZ1CD9/tOIP88pw+RtSh/jVcl98UyzE06J088f8TYs/zKuYnq3r+N0r/ZRa6meaF25b8fvGYNt4Xy33mvpzsWjqSaHdbGbfSvG1vZ1a1oGrF/XKekm7HBSve/eydRgQ33QN52IhnhR1IP84Jv75Qy/VudtFfNW0b170iKAS/+dluS6z6fshni6Vy51Svab+WvyuTM4O84v4qjPQypuk/Wq5Jx5NPU0qlyedv3eSu2vxe9WP+Hb4pscAA8s98edi9Q9I7shQu9yr/nDuSrx29rbTiV7vAE5HZG+5L74tVv92dA75ZAVD8U4cF8u7y2yAeKFAvFAgXigQLxSIFwrECwXihQLxQoF4oUC8UCBeKBAvFIgXCsQLBeKFAvFCgXihQLxQIF4oEC8UiBcKxAvFRbwClAko3mFb4IJJzUM8P4wqHuLZYVbvEM8Nw2qHeGaY1jrE88K40iGeFeZ1DvGcmFDlEM+IKTUO8XyYVOEQz4b79X19kBbiufDA+/UrIJ4JD2ob4pnyqLIhnieP69p3H39831ZXch24nhvER8Oiqj2I1+6Lw08+3g2w4qamH55n4UX84fWjjvxpRQNf3HofevLRRn0ei1/Mvv2qI/71pq2H+Djc1nMM8c2FnPcDd3iB+CgMVHMc8bZFAy90a/nctUfo44eKNDuPE/iga9ok0K83HMOgj38bWwXx4VGXBxVZ/PtvY7dhgPjgVKqVSiNe35Fh8OZ9EB+a1rRqfpjSvfoQX92F6dY9xAdGtd/UJOWdjccxFG9TNHCkDvFJ7Xt/63tgOEcWde7irSoa4jNFdf7bbn8HiCdKp393KGAciKeJ+RG6ByWMAfEk8VC1EJ8hdTvvdkwc4vPDuX8/FzIOxBME4mWizt8hXhJttaKPl4WvWoX4vPBWqRCfFf7qFOJzwmOVQnxG+KxRiM8HrxUK8dlwqU8f5zBDfC50vDf/PBU3CMRTQXV/hHgx9CbMQLwY+nWJPl4KAaoS4jMgRE1CPH2CVCTEk+e6Hv3MQ4Z46tzkdTfPeSj2BohPjbpeamfCey33BohPjLpZhHgJ3I7f0cdLoFeFHq1fF30LxKeke3y+uayQtysLQTxdet4LiJdC7+8y6hzzAUofAOKTcXPehd8LyEE8UTrzJs7tfIjyR4D4RPS821zcyHQHI0B8GrrzpCBeDv14D3J9WIgnyLX3kPsYAeIT0MyDDtS593YyCsTHp/q7a7g2vrOXO0B8dK68Q7wQqloL7x3iiRGnnS8gnhg978H3dAeIj4rqhnvwXd0D4mOiYmR1533dBeLjofqE3tv91RAfh7jSqz3eXw3xUYjvHeIpEF87xJMgvnaIJ0B86dVe76+G+OCksF5AfHIq5/G9Q3xiEsU7xCcmmXeIT0o67xCflHTeIT4lCb1DfEoSeof4hKT0DvHpSNnQQ3xCknqH+GSk9Q7xyYB4mST2DvFpSHjIrn0H91dDfBDSe4f4FCQ58+L6PdxfDfHeSXCa1eDbuL8a4n1DxDvER4aIdoiPDBnvEB8XMt4hPipUrBcQHxVC3iE+IpS8Q3xEKHmH+HiQCniIjwYt7xAfC2LeIT4SZMbvLRAfB2reIT4O5LxDfBToeYf4GBD0DvERoOgd4oNTOSfnHeJDQ+cPsX0gPixUvUN8YKh6h/igkNXuQfxhXn20p+3UogVA2Luz+NNqWT3unz8mFs0fsv27xlX88X3bezQvmj2kvSPig0Hbu3sff1ygjx+AuHZk9YGgrj2IePK/7OHJoAqck7vFm2XRjMnAu4es/je1tCqaLzl49zKc2wyldnLF56Dd1zi+TO1v3RP/5KHIw7u3AzjTi2ZKJt4xnPNMLt4h3i/ZeId4r+TjHeJ9kpF3iPdITt4Nxe+eP3Zq7ECNZdH8yMm7mfjjl3X5dfg8OnKzKZobWcW7qfj3bRnzEH+PzLybNvVqtt6jqb9Dbt6R3PkhO+8Q74X8vBuKP63U8/cva69FMyJD72biT6u3w+vHwPmULkWzIYs/v99gmtWX4u/8Ic6maC7k6X1KxO8Q8UPk6d28j1dqonch4jP1jqzekVy9Q7wbuWo3Et/MlRmcLeNQNAeyjXdEvBMZe4d4B3L2btTUv/97dGKkQ9HZk7V3RLw1eXs3PnJX3D2F3qbozMnc+6SsHkfuLuTufUrEey46a7L3jj7eivy9G4rfI6vvwsC7YVO/mHi6nUnR+cLBO/r46bDwbtjUb0avd2JfdK7w8G7a1KOPb2HiHVn9RLh4h/hpsPFuPJMGTb2Gj3fjSZP7l2L34rXo/FCMvBsP5+ovn0VnByvvhqdXf12XX9Jny7LybtjHl873Sk0czDOpoRZe3pHVG8KrnS8g3hB23nHkzgh+3qdE/E5uH89O+yTxYodz/MK9mCR+L7SpZ+l9Uh8v9OJHgsUHKToXeHqH+Ecw9T6hqX/a7qa19RzqiuE4rsFE/H6mr3d1mMubUMHXu4n409fqOmeSxad+HwEwmi1bDeP+913cOJ6x9wkRXxxehUU8Z++T+nhh43jO2qdl9X6Lpg7reMc4fhTm3iF+BO7eIX4E7t4hfhj23iF+EP7ecaOCIdh38IXpefWyblQgwTtuVHCLCO+4UcEtIrzjRgU3yPCOrP4aId4h/gop3nGjgj4yEjsNIr6LHO8Q30OO9ylZ/cQroWQoXpB343F8+Z3/NXAEeceNCjpICnjTy529FPwjXpT3SZMmJw7oMqtCWd6R1TcIGsjVmIlnf6MCBfF9zle29F80JeR5x40KNAK9m2b1nG9UoCR6x9WrRYZ7gT5eZrgX4vt4sd6F9/FitU87cseujxfsXfKRO7nNvEaueNne5Q7nhHsXezMi4drNh3PcbkYk3bvUmxFJ127ax3O7GRG8y8zq4d1dvO749fGdgRmVdCsW4s3EHxcvxWE+PJprk77DT1OLTge8F2biN2/FabUcHs7V10wY/DsO1ZqFd43JpMnSqc7oB4dzx8Xs26/bwQvdEq1a8QO5GkPx+moYI8O500q9DN6oiGbVwnuNUVO/rOZQbTgcuYP3BrPkrkzadYZnWCThyiX81iLjPI4/zJd6Lm0ewzl4P+MqXqf7m2UmyR28X/BwAKe6g0UOwzl47+Dc1Jfhvi8zv/1tBkCsgimnHglwP1a/qWpzIPOjVcPw3kfGH2kup9sQelNpESEe3m+RIB7eB+AvHtoHYS8e2ofhLh7aR2AuHt7H4C0e3kdhLR7exxEhPvX7oIgE8anfBkkYi0e834OveHi/C8QLhb34tG+CLkzFYyD3CJbicXz+MRzFw7sBrMWnegM5wFA8vJvATjy0m8FNPLwbwlV8in1nBTPx8G4KT/EJ9pwb3MQX8G4GN/HwbghD8Ql2myG8xCPgjWElHpmdOYzEYyg3BT7iccxuEqzEI7czh4t41XiPuc+sYSIezfxUOIjHGTcWMBAP7zbkLx7erchePLTbkbt4eLckb/HtIA7aJ5O1eIS7PTmLh3cH8hWv0M67kK14jOLcyFk8zrtwIFfxiHdHMhUP767kKR7enclbfLg9sCdL8cjr3MlUfJXTBytfAvmJPx+4CVO8FLITj7zOD9mKD1K4IHITD++eyE488nk/ZCa+cg7vHshLPNp5b2Qlvg53ePdBZuIV2nlP5CQe7bxHMhKP43U+yUs8Gnpv5CQeAe+RfMSjg/dKNuLRzvslI/H4C7xP8hGvklw5jy0ZiUdL75NcxCvfBUonE/EK4j2Th3iFiPdNFuJx9oV/MhDfSId3rxAXr9pT6DGI9wxt8ar3D3iEtPhLvKOH9w1l8U2kI7ELAW3xyOaDQVc8zqQOClnx1REbeA8GbfFOJYB7UBaPeA8IWfFo58NCWLzb5uA+ZMXDe1ioiof3wBAVjw4+NDTFYywXHJLicaJVeCiKx4lWESAoHpe9iIGz+MO80vS0nVr06DtCuMfAVfxptawe988fE4sefUMQHwNX8cf3be/RvOjR9wPxMSAW8bhObSyc+/jjwmMfj/49GqSyevTv8Qgg3vr60ujfI+JhOLc8rZS67eInC6xej/49Ej6Su02Z3x1eXZM7CI+Kh+Hc6evaw3AO3uPi3NSX4b5/K4dzL1OLdngxcMc9udtUidyt90kucTJ1bGgM51SBhD4yJMSr9hvERyOl+LZtv1z4AOKjkVD8uX1vfkAfH5P04nGcNgnJxaORT0PqPh7HaROROKuH8FSkFQ/vyUgqHt7TkbSPdygcOJI4qwepiCb+JnOH96TEEn8zVof3tKQSD++JSSQe3lOTpo+H9+QkyerhPT0pxMM7ARKIh3cKxBcP7ySAeKFEFw/vNIgtHt6JEFk8vFMhrnh4J0NU8fBOh5ji4Z0QIcUDyoQT//g3A1sS3LIG4sVtWQPx4rasgXhxW9ZAvLgtayBe3JY1EC9uy5qg4gFdIF4oEC8UiBcKxAsF4oUC8UKBeKFAvFAgXighxe8H711lgr675dJyr4fPNvs8LoZuvhJyjy6f0r5mzwQUr+tjN3CZ+8ccv6yLw6e11V73VlWib8Bi915t9+jyKe1r9kLgpt4uGKq7YWysgmEz+5fNLvWNVywD13KPTp+ysG9mWgKLt/+91PFghVWN6Fstxd1jjfU+aUf8YT6z/Vyn1ZvtTm006BuoJhBv/SkdarYhkPhNcxOb6ZVZb3lcTK+RZp8ZRbzNpzxva91W1IQeztn1YYe5bddnqcGhj3fJ6u0/pUN2UBNQvH3z6VQjVhp0m2vda1qKt/+UTh1TQ8iI3yll1xPtqpkgltWSzTje4VNa1+wFHLkTCsQLBeKFAvFCgXihQLxQIF4oEC8UiBcKxAsF4oUC8UKBeKFAvFAgXigQLxSIFwrECwXihQLxQmEm/rSqzmB8/vPB+Y+Hz9vrUyTb5d2dMyDrzVxnL5GAmfiiEfjIzcD65qmNPnV5MWK+fg3Ek6QR/0sVt8dFNZW1fjj89eenbfWj/vZH+brycbZupit3pe6fP/QP1f965es/yodms0O9pS7Yw3zlRHAVP3+rph1s6nkSm2qpmsFQP1M32Hpy9P75u56u3Dbg+3bmVyP+2Kysy7s09XUxegKO6+zFRHAVf9FWytF+GpfNM9eddf1U0U5CPX1txXdWnrfpFOw4nSUhzMUvlJ5zopcal5dn9NdrPXlmoxvs4YjvrOyJr4vRHYHrlJZEMBf/3obsOeLrZ7oRr1O584L+/t91+Rtx/tU5r+yJfz/37HvrqVdJ4S2+6dzbPr4K4E5nrfv4w2ed5R0+rZt2fff8UYbzsuoTdk2of1pfi2+K0WVDPBF64uu0vc3qP9cJfvnMadXJ6suR+19+XnbG8U+/qzf9+Dedu51XVr8pnaxeF7xBVg/yAuKFAvFCgXihQLxQIF4oEC8UiBcKxAsF4oUC8UKBeKFAvFAgXigQLxSIFwrECwXihfJ/Urs21EzN+PkAAAAASUVORK5CYII=" alt="plot of chunk unnamed-chunk-5"/> </p>
+
+<h2>Box-plot</h2>
+
+<p>Data is not always normally distributed. Income 
+In these cases the average and standard deviation are not necessarily informative. The properties described above are specific to the normal. For example, the normal distribution does not seem to be a good approximation for the direct compensation for 199 United States CEOs in the year 2000</p>
+
+<pre><code class="r">hist(exec.pay)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAh1BMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OY85ZrU5j9plAABlADllAGVlOQBlOY9lZjllZmVltf2POQCPOTmPOWWPjzmPtY+P27WP29qP2/21ZgC1Zjm1tWW1/rW1/v3ajzna/rXa/tra/v39tWX924/9/rX9/tr9/v25vVSTAAAALXRSTlP//////////////////////////////////////////////////////////wCl7wv9AAAACXBIWXMAAAsSAAALEgHS3X78AAAH30lEQVR4nO2dDXubNhRGi9Ol9pKZZm1xu26hq2mNMf//9033SmCnBr1BgONM73me1kQWMhz0geFavKmJlzcvvQHXDgUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgwOSCqvRmW9eHzc3WLjXk2YhC96tk8Th604KYUdCT5DwZI2jc2qOYuwaZY5/cbA+bJEmWdV2Yl3Utbyc339Pb3WGz+GjqRmmSTQ0pk3cmfWsyNTpsfl37dtemZFKltNCsTdBM7qCYD//X/mEL1qNV6gcPZ2ZBVZrIzv20gnL5w7zqHr9diSB594fNtCuTBrenLv+JIJuy1jpVivImQfO49eyyWcN9+q4wCvPANjqDoGYfRdB+5Y68NJL9ymxklS4e5fibQ6+Cls1qN9sykRWSTLJIWpu/bWJanFaIKn270grqErRIl82UupbtyJqC96vlWZt/LjML0r9k02Tb9ZAbMfbYV7aJPTYriaCl7k+T2uZvBbk6Jm+X2rLahNMWZGUUkmILPmxMLV2G7c8l+qDE1YE+QZqnFXTU5hVUaEs7EXQU0ApqCq6LxddVWBd0kWE+d7vY1cTsvq611/1VUE8Tc0vvJFeb4IpUC20Tawoec5ows6D2GOY9nbRrLZ01qM1/HOZz1/1KFpVzTDi267aTbgqWD2zMDuUSTcw1I7OJzTBvDm8zzIsKs5dr1/KeCGrzH8+DcjugFVbbuk3QBa1wIkiGeUl0BctCYBf0gl81yuCDiugYsYrgM80XEeRGusBuE3IuKHiQf6kaVLq+ZR7OdJycmw+G3+YBFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCIAF2YuCSfD1glcOFHTYuOvlc13eunKgoOph++Q1NliDALgPctdH2QeRTigIwGEewE4aEDLMt2E8M27X1TCmBlGQ0j/MUxDACUqeMslmXQ9TCOpK/N/wrGFeolE6votRkCCd9GGzpqA+rJh8SUE9uGG+eHtHQd1UqQY6FefjPAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBSn90BwUJ+N585II8QZwUJLAGIWB0R+yC+qEgAAUJ0jlLK+sIUaQgwQjSAWz/x9lbFCQYO/v7nS+IM3ZB6eKfL1KD7jnM96BT1ZUc5odDQQAKAlAQgIKEZmbNji9jFKRIDHA3FGSp3vdMYhmRoCpoKtiIBOnEfYNnO41KUG3nqR403WBUguxPVobNHhCRIJlidvi6EQkKIyZBpel9iqG9dESC7KnO/vwHPV4iEmRvfg39aXxEgur26QVDiElQEBQEiElQ2Xd72UdEgqo0ZErzmAQFTVAWkaA6D3lCQUSCwuYpi0iQD8Yo+mGEmSJPB/rRee2ZMYrCYbPe3+86v4uxBgk2xqV7sGeMYt3UoILf5s859kGdUXZeYhLkgcO8H3bSgudMGk80GYMgS9H1hYw16AiH+Q5OBXUFavqISJCrJQOvmkUkKAwKAkQkyBOIyBhFpVg2/53BGMW6GeB7Lt0zRrGpJd01qJ+IBNlv80MDOWMSFAQFAWIS1H/R3kNEgjwX7T1EJMh30b6fiATxon0vvGgP4CgGYHwQwPVBn4f+0keISBDjg3phHwSgIIAICn3GbFSCOuYugVAQgIIA8Qjqv3HhJRpBoVCQwgAqPwx/ATBOGsAahGAAVTAU1EO0QZydcC5XAOdyBXTM5dpAQQLncoVwLtdQKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIUBpL7YRgw4Bkzcb5WphHkqUFRMCaQPArGjGJRQEEACgJMIOiFx6IALi1okiwTFTPRJx2hIAAFASgIQEEACgJQEIAnigAKAlAQgIIAFASgIAAFASgIQEEACgKMFVSl/dNQF4neDHFZfDl97O+244uS28NZUDEjBclds97nleTZSRZvTg+l3nAaWZQ8XGb/+2NIMSMF6RSMd923zNwczC6LL6eHfPHVrDS2qFI85FlIMSMFyYwefc/+0TuOWZPFl9P/EXfbSYoya4QUM1KQ3JDu+xCp0+aYuSy+nF5E0ARFyeOLQoqZsQYpeTZFDRpfVJU2DwEbWMyMfZDbnHF90BNB4UXtV+3zGwcWM3oUW/eOBFKFD1+2LosvpxfZh7FFOT8hxcx8HrR4rKc6DxpTVKE3VLOQYngmDaAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCXIugKpUojlzvVNlleZF7NHX18Jcu2BCWPAt6YGUw1yLIqXn4/tBokuiU0t6+ut2VN1sNYbnbluu6XOPyJuNKBMney63gIlk3y+1d4SrNTuJfqg+7byGPNg/lWgRJYMrCRjm55bYhaYCBhD7lEh52+Pz3h0tOcXAtgtzEF/mnZbN8rEHvNWhFKpKkFZ8u2cKuRZD0O6bD2d//NG3JLksfpJKqdKnvuTgh+XdBrkWQDlmuX3bDl75ImMr7j/p3kSS//ZlJeMYlN+xaBHn4Jcip40lwc/LqBBWLi7aw1yDoZaEgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCAP8Bo0w/5HuJKLgAAAAASUVORK5CYII=" alt="plot of chunk unnamed-chunk-6"/> </p>
+
+<pre><code class="r">qqnorm(exec.pay)
+qqline(exec.pay)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAk1BMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OWU5OY85ZrU5j485j9plAABlADllAGVlOQBlZgBlZjlltf2POQCPOTmPOWWPZgCPj2WPtY+P29qP2/21ZgC1tWW124+1/rW1/v3ajznatWXa24/a/rXa/v39tWX9tY/924/929r9/rX9/tr9/v2Cu5pRAAAAMXRSTlP///////////////////////////////////////////////////////////////8AH5pOIQAAAAlwSFlzAAALEgAACxIB0t1+/AAACRFJREFUeJztnY2aojYYhTfaus5Op9Wd3Wp/pVvprtQq93915UuCgkJOIOoYPO8zM4pAJO8kX1CS8C4nTt699QHcOxQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCADcStJurRZ7vl+O118blZvulUmqyOaypLRdpCovK9ppkcbHDzm8pqMhXV0HbJ61gtLIr6stW0GhVF5SoSAWpmRWUKnleLIx+VqPf1fulGq9TKQl5ZnJfZrgoL9NccmzLzMnybi6PiZqZ7U2yuoxNL3jkNxM0/jxea0GJ/r9PbXX5R5WM16ZITDaloO2TNlGYNEXmZLkuyCYbsaAvTzMRtH3SZWS0MuUhU/KSWsgrdsN1KSizOS0rzclyrYodko22io3XyejPQpDJZaoWpiDIoqw0S5LnRkESfYrS1iDIVslDshEL2s3ftwmabGTJxOCjIF2lkqm0gFrQ1+OySdPGpqEIkjBaq2KngtIiyG6fjoJ0JRQ1tpE6Wa4JGkIVkwzWgvSpoEzVS1DZrEub17BcE3RIVp7EGaTXJiJXm/kTQZK3WSoBu3aiWMlwbbkuqExWLFZOLYOJ4aPGbr5wLl+VGAS9KRQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAmBB9ms8r0t+AwQK2i/tNZdLfk0XEVDQ7nVde3w0WIIAOAbZC5iMQaQRCgKENPNqGAQKcgRpkHQkhApyNPMUJAy2BJWVK1SQo5mPWpCyv+GC3O8RLdcU5Bn/75uLCZLgLLWs4ZNG1IIuFoMKQboB2/54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" alt="plot of chunk unnamed-chunk-6"/> </p>
+
+<p>A practical summary is to compute 3 percentiles: 25-th, 50-th (the median) and the 75-th. A boxplots shows these 3 values along with a range calculated as median \( \pm \) 1.5 75-th percentiles - 25th-percentile. Values outside this range are shown as points.</p>
+
+<pre><code class="r">boxplot(exec.pay, ylab = &quot;10,000s of dollars&quot;, ylim = c(0, 400))
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAV1BMVEX9/v0AAAAAADkAAGUAOTkAOY8AZrU5AAA5AGU5OY85j9plAABlADllAGVltf2POQCPOTmP2/21ZgC1/rW1/v3ajzna24/a/v39tWX924/9/rX9/tr9/v04OFp0AAAAHXRSTlP/////////////////////////////////////AFmG52oAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAT8SURBVHic7Z1hc9JAEEBFbdVWrcWilPL/f6c5qDM6JvdCLuH2zHvTmX4A9uibze4l3cCbo2R5U/sNREdBgIIABQEKAhQEKAhQEKAgQEGAggAFAQoCFAQoCFAQoCBAQYCCAAUBCgIUBCgIUBCgIEBBgIIABQEKAhQEKAhQEKAgQEGAggAFAQoCFAQoCFAQoCBAQYCCAAUBCgIUBCgIUBCgIEBBgIIABQEKAhQEsKDnD5vEu6crvJuAoKCXh6+n3/ubn4u/mYigoMOXp79+rw0zCOAadLgfqkGb/4NSQcNA6EZQEFAsaLjNKyiRKdIKSvS0+ZHlrRHMIKC4BmXa/NT3FAq7GKAgYB5Bzx97zsQUlHgtQX1FSEEnDvedGjMox+H+5oeCsjx/6LugqKCy0I2gIEBBgIIABQEKAhQEKAhQEKAgQEGAggAFAQoCFASME7S7+bnbbL7OGroRRgk6fH7sfnqvq04P3QjjBH156nKoX5DDC4nd5u3jvvcQ81/PQGZGcUWCMhOaZlDi5dvj4DMcXjjmJBSEbgQ3ioAzisDYNj90iFmkE902en973N32PMEZxUT3159//n2CGZTo2nz303+qYZtPdG72m83drKEboek2f406N0ebv9vWOcQ211okQxKUGUM8F+ltGsL7dP0iHUVQltTa9nd1zuabEPS7zdfIoCg1KHuIdY8mQ7uVt/klQjeCgoBxgl4euiPs0vuaVyTo5SFtoncXGlqRoHMPv/SzA1YkyAwaxBpkFwMUBBTvpCeHboRxGbQ9Fem+a9LTQzeCbR6wzQMXtPkLj7BVCVoidCMoCFAQMGYflO1eDi90gr47YTbE6RDbZnbSzigmnFEcxA9Y8noQ4KkGUHyyaps/ZjOoapEO8q/nY64G1ZxRbGp4oUYGNSGoZptvQ9Dk0DMQpwYtEboR5phRfPu49nOxzE29qUinXcC6BWVu6j2L2d6uXNDwTb2vbX73/t8HVyQoc1Nv1+ZPA/g9Q4prErRE6BmwzfMCITaKE7/faPn3fq0TvgxJ0NRvp1lNBk39fiMzqCx0OVEyaOJt8+vJoIVClxMmg5YJPQNR9kG2+WEs0rZ5WiT/cOwMCiLINp8hdBeLUoMWCl1OmAyK2uaj7IPyRdrhhXybd3gBMqjmjGKYIp1r8w4vEA4vLBV6BoLUoN90uXLRDT/r2QdlqdjmmzjELNLH/E666oxikEMsuw+qmkFBBOUvmNVs80EEecEsgxfMWt4oKogWaEFQ1S/DDnaq0c/5RpcJoRthTJvPf/rL4fPAVyasRlAmSUpCXx5vFDMvOnpOev7Qc1B/idBdLMISClJQ2RLBBV0BBQEKAtoWVH8JBSmobIl6gsadWCx/9hFXUNGr54ukoLJXK0hBZa+2SCuo7K9QUFxBRa+eL5KCyl7tIRZWUCNLKKjlGcUIS4SeUYywxKgvgfzz93G5GcUrVOS+VfMPB8+gK1Bcg/y45KVCN4KCAAUBSwr6P1hO0CpQEKAgQEGAggAFAQoCFAQoCFAQoCBAQYCCAAUBCgIUBCgIUBCgIEBBgIIABQEKAhQEKAhQEKAgQEGAggAFAQoCFAQoCFAQoCBAQYCCAAUBCgIUBCgIUBCgIEBBgIIABQEKAhQEKAhQEKAgQEGAggAFAQoCFAQoCFAQoCBAQYCCAAUBCgIUBCgIUBCgIEBBgIIABQEKAhQEKAj4BYm3r3FgzZGiAAAAAElFTkSuQmCC" alt="plot of chunk unnamed-chunk-7"/> </p>
+
+<h2>Scatter plots and correlation</h2>
+
+<p>In the biomedical sciences it is common to be interested in the relationship between two or more variables. A classic examples is the father/son height data used by Galton to understand the heredity. Were we to summarize these data we could use the two average and two standard deviation as both are well approximated by the normal distribution. This summary however fails to describe an important characteristic of the data.</p>
+
+<pre><code class="r">data(&quot;father.son&quot;)
+x = father.son$fheight
+y = father.son$sheight
+plot(x, y, xlab = &quot;Father&#39;s height in inches&quot;, ylab = &quot;Son&#39;s height in inches&quot;, 
+    main = paste(&quot;correlation =&quot;, signif(cor(x, y), 2)))
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-8"/> </p>
+
+<p>The scatter plot shows a general trend: the taller the father the taller to son. A summary of this trend is the correlation coefficient which in this cases is 0.5. We motivate this statistic by trying to predict son&#39;s height using the father&#39;s.</p>
+
+<h2>Stratification</h2>
+
+<p>Suppose we are asked to guess the height of randomly select height from the sons. The average height, 68.7 inches, is the value with the highest proportion (see histogram) and would be our prediction. But what if we are told that the father is 72 inches tall, do we sill guess 68.7?</p>
+
+<p>Note that the father is taller than average. He is 1.7 standard deviations taller than the average father. So should we predict that the son is also 1.75 standard deviations taller? Turns out this is an overestimate. To see this we look at all the sons with fathers who are about 72 inches. We do this by <em>stratifying</em> the son heights.</p>
+
+<pre><code class="r">boxplot(split(y, round(x)))
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-9"/> </p>
+
+<pre><code class="r">print(mean(y[round(x) == 72]))
+</code></pre>
+
+<pre><code>## [1] 70.68
+</code></pre>
+
+<p>Stratification followed by boxplots lets us see the distribution of each group. The average height of sons with fathers that are 72 is 70.7. We also see that the means of the strata appear to follow a straight line. </p>
+
+<p>This line is refereed to the regression line and it&#39;s slope related to the correlation. When two variables follow a bivariate normal distribution then for any given value of x we predict the value of y with
+\[ 
+\frac{Y - \mu_Y}{\sigma_Y} = r \frac{X-\mu_X}{\sigma_X}
+ \]
+with the \( \mu \) representing the averages, \( \sigma \) the standard deviations, and \( r \) the correlation. Let&#39;s compare the mean of each strata to the identity line and the regression line</p>
+
+<pre><code class="r">x = (x - mean(x))/sd(x)
+y = (y - mean(y))/sd(y)
+means = tapply(y, round(x * 4)/4, mean)
+fatherheights = as.numeric(names(means))
+plot(fatherheights, means, ylab = &quot;average of strata of son heights&quot;, ylim = range(fatherheights))
+abline(0, cor(x, y))
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAMAAAC+/t3fAAAAclBMVEX9/v0AAAAAADkAAGUAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OWU5OY85j9plAABlADllAGVlOQBlOTllZgBltf2POQCPOTmPtY+P2/21ZgC124+1/rW1/v3ajzna24/a/rXa/v39tWX924/9/rX9/tr9/v3Ia1pAAAAAJnRSTlP/////////////////////////////////////////////////AKd6gbwAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAYxSURBVHic7Z2LdtsoEIYrt2nSi73pNt61W7sbydb7v+KCQBhFSIwGsJgJ/8npcagE+jIwGgYkf2iZ6sPaF5BKBYyaChg1FTBqKmDUVMCoqYBRUwGjJg12fng9V9XLutcSVQrs8tdB/DRfTytfTURpsOeTsBlDsPZcbQ41w67IUKYrmn+ZSIJddpXSw+valxNPtsVYifkYa+uuK35kZDdzg175OqKL+xg7b9e9jPgauHt+Y4yhmIP1nZFRX9QWO0rncX6s+QRVwyD4Nx+3r8Cu+85iD3++M7OY6ItihD1ednymmsy9IkN1kcfz7x03b8/bYiylwa776uE/VpMycx9rvr8yijusyEOAsZpu2hY787OYHGO80orsvSI/lbwiNZW8IjWVvCI1FTBqKmDUFBJ5VOsKAoZLKHqqTiwYGCryIACmFiUiV51YwK6IGmPYa4oimMVSVJ1Y7xwMlfMgANavjy0jIwCG29ZHAIytxdiOsYVVwqK1xHrn7h71QAEBMNwDBRTAUA8UEADDPVBAASxF1YnFFQyWGkDWHXAuus0OSP4LAMMuSawA1lP5W9c7c6jkPKyAB9IVjzpEyjE10IH0RlL9ENR67lkq1fdaZavWIPpb9zoPxxrTPYNgDTZsTFlx/kT/tEXN1aYaTS1jpepNWYSJ5uQCdUIwq8dZY8xqFwiWW2pAX/pEd49lsdnm08h4C3cTccbYfPNpVBknaBcOzUcppOrHU2WsNXIZ4NazAbvdp26xhcNlgFvPAcwyz7gDDlqjBWYHF+00GL0xduuBjnsWunWTGlgnCNa9EBOhQbNU9WN7foxaNbAGbNQJjTzUD6zKKEGwMha+Fljk8c9B/Nw1/eaKbmO2rseYYKqrauEKO6oDWTep0XQkZut39oq9M5+5X0Vq/c7RveUtgsfo/H+HvM9jqX/uvUWwsSCt3yfnYYImV3SL1NpjbMBUmfPuBZYm8jAR+9vMWYw80IqRh+UCw+7FmNYxkYen6kGutmoDb1dLW+/ljTxm9q6Pqx66hj66XX7REAVHHgvyireZlfo1aU413CuO8oqTQbANljxRnPY+5sxkxoj9Qa3PyYwxVNXODFm8e7Cn9VkBd5g6H+pxXX91W5XLAcyrWbCbnQZrPDmAeaP7CTArYHKt9CRV+ug+eC6MU/ro3vjADMECql6aDowmYHSP2/12d5pB67MK2v22HlULH2Nl9xu46sRK4DziZIJDtXbOI5neMxih3W/w1ontfoO3nv3uN2zrue9+Q7fO2nm02e3MidC6fy9V81Rtj87xRwBsZgZ93b+0R0HVjF+WSQBsxmKStt46qQmAzYwxaTEpmhabk3oPwdkaYyUITqoCNqupvOKKeudgvld9UgXDveqzWlcQsMBXfbracJTFPcyjKK/6zBcs8FWfGYOFqYDFPMyjwVIt9j2E+YIFfqdEvmDlOyXoqHce5TslqIg7GGqHadYK2WGatUJ2mGatkGdbslbIsy1ZK4ZXrKFuB9Qlxgc1T4ivqg5ZH7OuBOR3agj/+CC5dbf5snSnaMgOU0sQWxw3//qPchxUyz/acanJQt5hagl2p0B2xRbzTQNRIo/maQNqFw02vUV+UoFgInbubOX5i+rDsGCX3XJ/DUyYegUaA2iviJh0hCRMteRpsDGAA0NxRUmYigg65RhTATrOK5bvRqIj7hNNfuojD1bdUKq3mIygOU2gB12x5pfzYGsxxmOMnUpekZpKXpGaSl6RmgoYNRUwakoEdt33Llb4W0dCbVBy+01/inHfSQQ2uFYf2Kg8X7DLrtocutUf8enjr68/u/SZ/Hxqm28/3pYIDvHp098iRPipzzmB16YmlM5i3epPZ67madtlVY9bGY7K/OebEgEmPtXyb9GVy7OfgWtTU0rbFWUiVnVFTaoK2lGJ5NBBnToh+IucU4J1zzBZYHKtanOwwUyJfMBkACan9LD08oQSdsXdS98VNcaz8QyjkpHFZDlyLUEpHVh3kV8ON7BuHKkH/8cleowZMAmVKZiclX/68XLdCx9oPN/mYFvMKhGfPhuLiXNO7mfx4Moo8og7HcwETC6KBPmKkTIBi68CRk0FjJoKGDUVMGoqYNRUwKipgFETW7D/AVcsdV35lQg2AAAAAElFTkSuQmCC" alt="plot of chunk unnamed-chunk-10"/> </p>
+
+<h2>Spearman&#39;s correlation</h2>
+
+<p>Just like the average and standard deviation are not good summaries when the data is not well approximated by the normal distribution, the correlation is not a good summary when pairs of lists are not approximated by the bivariate normal distribution. Examples include cases in which on variable is related to another by a parabolic function. Another, more common example are caused by outliers or extreme values.</p>
+
+<p>The Spearman&#39;s correlation looks at ranks rather than the nubmers. Mathematically it is a measurement of the correlation of data with a monotonic function - a monotonic function is a function that preserves the order, ie mapping X -&gt; Y means that X&#39;1 &gt; X&#39;2 iff x1 &gt; x2</p>
+
+<pre><code class="r">a = rnorm(100)
+a[1] = 10
+b = rnorm(100)
+b[1] = 11
+plot(a, b, main = paste(&quot;correlation =&quot;, signif(cor(a, b), 2)))
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAMAAAC+/t3fAAAAclBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZrU5AAA5ADk5AGU5OWU5OY85j9plAABlADllAGVlOQBlOY9lZjlltf2POQCPOTmPZgCP29qP2/21ZgC1tWW1/v3ajzna/rXa/tra/v39tWX924/9/rX9/tr9/v3EohLPAAAAJnRSTlP/////////////////////////////////////////////////AKd6gbwAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAXGSURBVHic7Z2Ldps4EECrpBtnd2u33aUP09DGdvj/X6xGDxBCAhlpwOPO7alJsJC4zEgQHva79k55t/UKYMFi1GAxarAYNViMGixGDRajBotRg8WowWLUYDFqsBg1WIwaa4hdDo8v/W915c2I8vZFiJ35+fwshJBL2eksq4vVokpdrpYO1uwktJCdzpIpBhtVNdPI9vbw+8P/4uG7ej2qmZURgzV6OEJ5sdOm3SKPP7p1hXl6IQjS40u3TRpZnTtFFlPrCSulNq7cumrG0y/1+qpn7pXY5SC6d7TYYBEbGVfsBPNqLaIKyYXsFFsMNiok1/lZtn85qIjs1Grs4M2nV4hHt9mNj+5j7iJ7KSHLepwgniZz9Xax2wc/FVXbrdm4cnNXMhWPKiGPpltA/mkxWCdHbLjI5aDFhhHrxWAjyS1Q2Sm+2C5RTI1mETE5NyzWp2Kr39wPpohiKhVlO05e9WIqFQHwgJWxieunoiPmV26zGFIVImWn2GKBwaMXMzOfXnWA+pL+4BERs8O9M/a82im2mGpcSfTDfS+m1kyuhPXYy8SDPezTT2+4j4iZHbRaHIygiJ2ii90sLEYNFqMGi1GDxajBYtRgMWqwGDVYjBosRg0WowaLUSNHTGwLoljGslkoq2wxfTkhdOlmKzGh/ueKvX3RVwBO4xPLtMUun14GU6+BLbjbiBXqY/rKzS31saTWSY6KKa0vEUvckyDDESteNTLZw/3B5N149KAtJsf72M0HxMXay8fI7UvUxZZWjQyLFa8aGRYrXjUyLHZFlXysiAmLFa8aGRYrXjUyLFa8amRYLMb5uYK7jgN3GNMWgxOmdSX9PtzOCdOU1lNOcb99PQ5Ocd/JIZUM12nftqfd6B3iYt0jDddWjQyPisWrRobFileNzB8upp92LVs1Mkli+vx8k/RgVnLVyCSJ6cOKwPXznKqRSUvFWkXsyly8ebGJS2DhKu/jWHFx1ciwWPGqkWGx4lUjw2LFq0aGxYpXrcug7cZL3Dr7cFx6I6ZIK7aEEucV4eB/TkyHxhxpdXG6YTEtVO9mziuKfnYrep3up/IpWejW2eb9P5MRE2rVzT9XRwshRK7ArbPqJrFm+u43HSkbMZONgciVY4VR0Yr4zzG4KVn+rxx0MXNLteiD1o8kLWEx27GcuLmvou9rNMW8dPT6W9sNluXAF2u7LuV4tQPDfiwpx0p9bBCr1pXSsUp4tmFR61HKHCt2MRnlopujGU1Nth4kU2yYhLFH5UwnKwuCmLvC3UgfxdtVFwM1YiZcg2F+1Nv6462iYIs5w8Nk3EqP9mv0MXeACORhF72yrLCDjvUt7wAro6Vo63HyxayEL9h6u7OMhuKtxyl4EOztyex+WeAEbIUdtI1P2w2AXsfDOUGwwskc4e6l226Id1zn1+N61jqZ08/ru1T3E0IXwziZM1k1hkOQlU7mrA/CyRzncCLeLHrgVvmzJfgWshmLTdKEHkD9E8XI9LGw2LYUEZsg0EDarLJL+rBYFBbDXdKHxaKwGO6SPvzZb9RgMWqwGDVYjBosRo1sMfgk0LlvzQqXsZ/c6MwQ/jf4ySUTH9/wyRWDT+M6/z39hYKRMo0vC8/vDh+IgiWvfUbKkCumniKup0MWLnP+9/NwVuAkOjxVfu0zUoYSfSz6GWpTZd6+fvdS8fzhm5+KG0asnfrUu6kyzd7vY+fnavTg/+WQ9jVqY3LEavOFbvNe4zLSYCQGeTcMLPTM07LRo8CoOP9NgoEy+usXB7qX/0ZiMJakJHqAXLGFXsBouK9HqbhhxPSWn5aLlBmJyQ7lS5zEaNeWCB95UIPFqMFi1GAxarAYNViMGixGDRajBotRg8WowWLU2Eos5epTFhuJqStL4zv5C7JhKi68PpTIZmJ18kfNLWOrVDxU95mKIDV3hTePrVKxEeKvz5jDIu/HqMFi1GAxarAYNViMGixGDRajBotRg8Wo8RupnlIe1WMDLwAAAABJRU5ErkJggg==" alt="plot of chunk unnamed-chunk-11"/> </p>
+
+<p>In the example above the data are not associated but for one pair both values are very large. The correlation here is about 0.5. This is driven by just that one point as taking it out lowers to correlation to about 0. An alternative summary for cases with outliers or extreme values is Spearman&#39;s correlation which is based on ranks instead of the values themselves. </p>
+
+<h2>MAD - Median Absolute Deviation</h2>
+
+<p>A robust estimate of the standard deviation when there are outliers. Compute distance of each point from the median and take the median of that. The coefficient is a magic number according to the lectures.</p>
+
+<p>\[ 
+1.4826 * median \{|X_i - median(X_i)|\}
+ \]</p>
+
+<h2>Log Transformation</h2>
+
+<p>In genetics, the standard deviation increases with standard deviation. The variance and average are dominated by highly expressed genes. Simplest approach is to take log of data. This flattens the mean-variance relationship.</p>
+
+<h2>Symmetry of Log Ratios</h2>
+
+<p>\[ 
+log(X/Y) = -log(y/X)
+ \]</p>
+
+</body>
+
+</html>
+

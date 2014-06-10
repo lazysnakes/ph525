@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Permutations</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h2>Permutations</h2>
+
+<p>Suppose we have a situation in which none of the standard statistical tools apply. We have computed a summary statisitic, such as the difference in mean, but do not have a useful approximation such as that provided by the CLT. In practice, we do not have access to all values in the population so we can&#39;t perform a simulation as done above. Permutation can be useful in these scenarios. </p>
+
+<p>We are back to the scenario were we only have 10 measurements for each group.</p>
+
+<pre><code class="r">library(&quot;devtools&quot;)
+</code></pre>
+
+<pre><code>## WARNING: Rtools is required to build R packages, but is not currently installed.
+## 
+## Please download and install Rtools 3.1 from http://cran.r-project.org/bin/windows/Rtools/ and then run find_rtools().
+## 
+## Attaching package: &#39;devtools&#39;
+## 
+## The following objects are masked from &#39;package:utils&#39;:
+## 
+##     ?, help
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     system.file
+</code></pre>
+
+<pre><code class="r">install_github(&quot;rafalib&quot;, &quot;ririzarr&quot;)
+</code></pre>
+
+<pre><code>## Installing github repo rafalib/master from ririzarr
+## Downloading master.zip from https://github.com/ririzarr/rafalib/archive/master.zip
+## Installing package from C:\Users\deeds\AppData\Local\Temp\Rtmp6TZvgN/master.zip
+## Installing rafalib
+## &quot;C:/PROGRA~1/R/R-31~1.0/bin/x64/R&quot; --vanilla CMD INSTALL  \
+##   &quot;C:\Users\deeds\AppData\Local\Temp\Rtmp6TZvgN\devtools10842914eff\rafalib-master&quot;  \
+##   --library=&quot;I:/Documents/R/win-library/3.1&quot; --install-tests
+</code></pre>
+
+<pre><code class="r">set.seed(0)
+N = 50
+smokers = sample(dat$bwt[dat$smoke == 1], N)
+nonsmokers = sample(dat$bwt[dat$smoke == 0], N)
+obs = mean(smokers) - mean(nonsmokers)
+</code></pre>
+
+<p>Is the observed difference significant? Remember we are pretending that we can&#39;t use the CLT or the t-distribution approximations. How can we determine the distribution of this difference under the null that there is no difference? Permutations tests take advantege of the fact that if there is no difference the shuffling the data should not matter. So we shuffle the men and women labels, say, 1,000 and see how much the results matter.</p>
+
+<pre><code class="r">avgdiff &lt;- sapply(1:1000, function(i) {
+    all = sample(c(smokers, nonsmokers))
+    smokersstar = all[1:N]
+    nonsmokersstar = all[(N + 1):(2 * N)]
+    return(mean(smokersstar) - mean(nonsmokersstar))
+})
+hist(avgdiff)
+abline(v = obs)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAh1BMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OY85ZrU5j485j7U5j9plAABlADllAGVlOQBlOTllZjlltbVltf2POQCPOTmPOWWPj2WPtY+P29qP2/21ZgC1/rW1/tq1/v3ajzna/rXa/tra/v39tWX924/9/rX9/tr9/v2erfcTAAAALXRSTlP//////////////////////////////////////////////////////////wCl7wv9AAAACXBIWXMAAAsSAAALEgHS3X78AAANy0lEQVR4nO2da1siVxZGpzTpaNrMaDozI51JJIFEbv//9w2nuCgtWBzZtXk3e60Pje0qynrOsi4HufxjASn5x7k3AM4D4ZNC+KQQPimETwrhk0L4pBA+KYRPCuGTQvikED4phE8K4ZNC+KQQPimETwrhk0L4pBA+KYRPCuGTQvikED4phE/KJYSfPVyPFov54Hq0+mrD8PGElU5vm6unY372p+f2p7bLH3knBS4r/M63h80p4Y+8dwn/svxpP9KVywq/2fea69F80DTNzWIxXt7cL4purv9YVpoPrv6z3C0ny28vd85J88Py+6PlQptiq+Xbe6+SrpcclpW1/27W1C7039Ue/2dZ/vtftnfS5/LCzx6aMv5/r8IPy39WtZrmu9sSvti/Vgs9T5oN68PFevmX8LPtksv/zh6unnbXVBThz8SqTWlXwk9vXx18p7fLnbXkmt4uy46bNtfN5m7Xo0lT7tA8lkXK97bL7xy1y5LLI0U5QHx63q5p+0X7i8eh3p/d8O3/yv5bKkzayuPmsf1itjrUP23uVMLfvGRdLF6Wf9VwteTym/cvqyxr2n5B+DOx5xzfrPfZQ+HbZbbhX34d3obfLFkW+6usnvAy7JnODdfp9h3qS+Ky+5ZvfRv+7aF+s+RynVf/K5eJHOpl2A2/3UWHBy7uSuJJs3+P3y6/bbhZcjuz33txR/hzsOdQvz6cLy/zNtO55Zl6M50riZeB79dngJ3w2+W3DddLLhbrGd12Te2vwD851AdgYjbZslvTucgSfn3lf6+0prOSJfzqXH2jtaZzkiY87EL4pBA+KYRPCuGTQvikED4phE8K4ZNC+KQQPimETwrhk0L4pBA+KYRPCuGTQvikED4phE+KZ/jG8WdBB4RPCuGTQvikED4phE8K4ZNC+KQQPimETwrhk0L4pBA+KYTf0nRx7g00hfBbujZPfPMrIfwWwveF+MgRvi/ER47wfSE+coTvC/GRI3xfiI8c4ftCfOQI3xfiI0f4vhAfOcL3hfjIEb4vxEeO8H0hPnKE7wvxkSN8X4iPHOH7QnzkCN8X4iNH+L4QHznC94X4yBG+L8RHjvB9IT5yhO8L8ZEjfF+Ijxzh+0J85AjfF+IjR/i+EB85wveF+MgRvi/ER47wfSE+coTvC/GRI3xfnHnkTn0ZNOE/yrnD9+xjQXgzHwvCm/lYEN7Mx4LwZj4WhDfzsSC8mY9Fd/jpbTvJvR6d/LMIL0Rn+Pngsb2dfHo+9WcRXojO8LMvo53bEyC8EOzxZj4W3ef42QPn+KN8LLiqN/OxILyZjwXTOTMfCy7uzHwsPjKd++gbuBNeiFP2eMIH5pTpHOEDc8pVPeEDQ3gzH4ujpnNXT3sfqyd8YI66uJsP7gl/7s035sjp3PCG8MnCr6dz4+8+E/6SOGY6d19uxm/nc4QPDFf1Zj4WhDfzsSC8mY8F4c18LAhv5mNBeDMfC8Kb+VgQ3szHgvBmPhaEN/OxILyZjwXhzXwsCG/mY0F4Mx8Lwpv5WBDezMeC8GY+FoQ387EgvJmPBeHNfCwIb+ZjQXgzHwvCm/lYEN7Mx4LwZj4WhDfzsSC8mY8F4c18LAhv5mNBeDMfC8Kb+VgQ3szHgvBmPhaEN/OxILyZjwXhzXwsCG/mY0F4Mx8Lwpv5WFxQ+KaLEzeP8BvUwp/Zx4LwZj4WhDfzsSC8mY8F4c18LAhv5mNBeDMfC8Kb+VgQ3szHgvBmPhaEN/OxILyZjwXhzXwsCG/mY0H44/2Jf/bV4qjPlo3xMeLn3uMvLPz6kyYXk0/P3yrCV3ktjvxs2QifJn3usBcWnj3eymtxzGfLco438VpwVe/mtSC8m9fiqIu7crR/e4onfJ3X4pjw7QX99Kc3ivBVXotjwk/vnnemcx99qIrwQnSHf7j6/deyx98xnTvNa3HExd180NwsJkzn0oU/COGrvBaEd/NaEN7Na0F4N6/FEVf167nb26s7wld5Lbr3+Png/oAhfJXX4ohD/eznp/2C8FVeC87xbl4Lwrt5LQjv5rUgvJvXgvBuXgvCu3ktCO/mtSC8m9eC8G5eC8K7eS0I7+a1ILyb12IVfvZw84H7Er7Ka7HZ4ydNc3Xgj3AHIXyV1+LVoX4+aJrHmvsSvsprsQk/vS17/J4Xwb8D4au8Fptz/J6XxnVC+CqvBVf1bl6LdfjJ8uw+rr26I3yV12J9qG+fVjf9XHOGJ3yl12IVfvVGN3ve5uZdCF/ltVgf6ttnz+95XeS7EL7Ka8HFnZvXgvBuXovtVf2BtzR7D8JXeS02D+BUPVa7hvBVXot1+KqHajcQvsprsT7UDw+9MPI9CF/ltdgc6jnHpwz/MQhf5bUgvJvXYh1+Pmg+/XXodfCHIHyV12LzWP399O6Zx+p79Vpsp3PL8LWTOsJXeS1e7/Fj9vg+vRYv5/i970z+LoSv8lpwVe/mtSC8m9eCR+7cvBav9/hx5QP2hK/yWrwOz3SuV6/F6/D7PozgPQhf5bXYOcdXPhuD8FVeC67q3bwWhHfzWuwc6isndISv8lqs9/jxzeafCghf5bV4/WRLpnO9ei22f51bsMf37LV4/de52jdAInyV14KrejevBeHdvBY82dLNa8GTLd28FjzZ0s1r0f1ky+ntocf0CF/lteh8suXq7XH2vkEO4au8Ft2fLbs+/u85DxC+ymvR+fp49ngrr8X6HP/18Ezu8BMxCV/lteBZtm5eCx65c/NadIdnOmfktSjh333ghos7K6/FJvz07sDDtXumc82Gyp9FeCE6w7PHW3ktOsMznbPyWrThP/QcW8JXei2Yzrl5LQjv5rUgvJvXovuvc4cvAAhf5bXo3uNXz7nfB+GrvBZHHOpnh56ESfgqrwXneDevBeHdvBaEd/NaEN7Na0F4N68F4d28FoR381oQ3s1rQXg3rwXh3bwWhHfzWhDezWtBeDevBeHdvBaEd/NaEN7Na0F4N68F4d28FoR381oQ3s1rQXg730XH/X0hvIz3hfAy3hfCy3hfCC/jfSG8jPeF8DLeF8LLeF8IL+N9IbyM9yVQ+FMfGVP3vkQKf+HeF8LLeF8IL+N9IbyM94XwMt4Xwst4Xwgv430hvIz3hfAy3hfCy3hfCC/jfSG8jPeF8DLeF8LLeF8IL+N9IbyM94XwMt4Xwst4Xwgv430hvIz3hfAy3hfCy3hfCC/jfSG8jPeF8DLeF8LLeF8IL+N96Q4/vT3wmcKEt/W+dIafDx7b28mn528V4U29L90fI/5ltHP7CsKbel/Y42W8L93n+NkD53gX7wtX9TLel4+E/+ibsxJeiKMu7srR/u0pnj3e1vtyTPj2gn760xtFeFPvyzHhp3fPTOfyhX+4+v3XssffMZ3r1/tyxMXdfNDcLCZM59KFPwjhTb0vhJfxvhBexvtCeBnvC+FlvC+El/G+EF7G+0J4Ge8L4WW8L4SX8b4QXsb7QngZ7wvhZbwvhJfxvhBexvsiFP7SP16M8B9c3aV7Xwgv430hvIz3hfAy3hfCy3hfCC/jfSG8jPeF8DLeF8L7+RMfoLKF8GG8LYQP420hfBhvC+HDeFsIH8bbQvgw3hbCh/G2ED6Mt4XwYbwthA/jbSF8GG8L4cN4WwgfxttC+DDeFsKH8bYQPoy3hfBhvC2ED+NtIXwYbwvhw3hbCB/G20L4MN4WwofxthA+jLeF8GG8LYQP420hfBhvC+HDeFsIH8bbQvgw3hbCh/G2ED6Mt4XwYbwthA/jbXEMn/29aju961uluIY/bXV4Swh/Mb4Owl+Mr4PwF+PrIPzF+DoIfzG+ju7w09t2LnE9OnVLCN+vr6Mz/Hzw2N5OPj13bEnnPJTwp3nTeX5n+NmX0c7t6y2o3DDoF9vw7+zxtfg+Jgnv0n2Onz20v057zvG1EF6IU67qayG8EIRPCuGTQvikED4phE8K4ZNC+KQQPimETwrhk+IY/sx/u4qPaQ3P8KxPaH2ET7o+widdH+GTro/wSddH+KTrI3zS9Xk+gANCED4phE8K4ZNC+KQQPimETwrhk0L4pBA+KW7hp59H7StvT3+19ZpxY/IS3jWWW1aw3Tr70XMLPynDUF5rP74xWuPw0WhFBdMtK5huXQ+j5xV+ePXb8ne2vKtG+7trwPzrk8l6VlhuWcF26+xHz/lQP717Xsx+thmS9v0azHYryy0r2G6d/eg5hy9vp2K16dMfnwz3K8stK9hunf3oeYQfNk05MVn+zq5XaXgmtd7jWwzP88H3eOszqd3Qmm9ZwTh84HP8fHBvdl1aDnzzX62GwXLLCrZbZz96wefxV6ZXY9bzeMOtCzyPBzEInxTCJ4XwSSF8UgifFMInhfBJIXxSCJ8UwieF8EkhfFIInxTCJ4XwSSF8UgifFMInhfBJIfwu88Hj9PNoPmj+NWjuz70xfUL4XVafobxsb/4sezHyhp/eNs1jeXXK/OvT7KH5/t9P5fnL3/+y3OP/aD9H2fLp0XqkDV9ejDT9/OfXp/LSpOH9YrLsXG6ax9Xuzh5/wcy+jMb3i/F9eXFS2e+/jNbneMJfMsPynhXTu7+/Pq0P+G3rIeEvm9nDY7mGm3/97e6ZPT4R7QuPf3xajMusjXN8IsZNuYRv45fL+R+Wl3nL6Xt7VU/4RFx66G8h/KI8anPps/a3ED4phE8K4ZNC+KQQPimETwrhk0L4pBA+KYRPCuGTQvikED4phE8K4ZNC+KT8H1bcbkuW4R0rAAAAAElFTkSuQmCC" alt="plot of chunk unnamed-chunk-2"/> </p>
+
+<pre><code class="r">print(mean(abs(avgdiff) &gt; abs(obs)))
+</code></pre>
+
+<pre><code>## [1] 0.002
+</code></pre>
+
+<p>Note that the observed difference is not significant using this approach. Permuations sill have assumptions: samples are assumed to independent. If we have few samples we can&#39;t do permutations. Permutations result in conservative p-values since, if there is s a real differences, some of the permutations will be unblanced and will contain signal.</p>
+
+<pre><code class="r">dat = read.csv(&quot;http://www.biostat.jhsph.edu/bstcourse/bio751/data/USheights_subsample.csv&quot;)
+men = dat$Height[dat$Gender == 1]
+women = dat$Height[dat$Gender == 0]
+library(rafalib)
+</code></pre>
+
+<pre><code>## Loading required package: RColorBrewer
+</code></pre>
+
+<pre><code class="r">mypar()
+stripchart(list(women, men), vertical = TRUE, method = &quot;jitter&quot;, col = c(1, 
+    2), pch = 15, group.names = c(&quot;women&quot;, &quot;men&quot;))
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-3"/> </p>
+
+<p>We want to know if the difference between the average heights are positive, negative, or practically 0.  The observed difference is a mere 3.3 inches. </p>
+
+<pre><code class="r">mean(men) - mean(women)
+</code></pre>
+
+<pre><code>## [1] 5.186
+</code></pre>
+
+<p>Will this difference hold up if we take another sample? Remeber we have to pay for each measurement. </p>
+
+<h3>Central limit theorem</h3>
+
+<p>The Central Limit Theorem (or CLT) is one of the most used mathematical results in science. It tells us that when the sample size is large the average of random a sample follows a normal distribution centered at the population average (what we want to know), call it \( \mu \), and with standard deviation equal to the population standard deviation, call it \( \sigma \), divded by the square root of the sample size. This implies that under the null hypothese that there is no difference between the population averages, the difference between the sample averages \( \hat{Y}-\hat{X} \) with \( \hat{X} \) and \( \hat{Y} \) the sample average for women and men respectiveley, is approximated by a normal distribution centered at 0 (there is no difference) and with standard deviation \( \sqrt{\sigma_X^2 +\sigma_Y^2}/\sqrt{N} \). To see that this is the standard devition you need to know that the varaince of the sum of two independent random varialbes is the sum of their variances and the standard deviation is the square root of the variance. </p>
+
+<p>This is imply that this ratio:
+\[ 
+\frac{\bar{Y}-\bar{X}}{\sqrt{\frac{\sigma_X^2}{M}+\frac{\sigma_Y^2}{N}}}
+ \]
+is approximated by a normal distribution centered at 0 and standard deviation 1.  Using this approximation make computing p-values simple because we know the proportion of the distribtuion under value. For example, only 5% values of larger than 2 (in absolute value):</p>
+
+<pre><code class="r">1 - pnorm(2) + pnorm(-2)
+</code></pre>
+
+<pre><code>## [1] 0.0455
+</code></pre>
+
+<p>So what is the p-value of our observed differences? Note that we can&#39;t compute the ratio above because we don&#39;t know the population standard deviations: \( \sigma_X \) and \( \sigma_Y \). If we use the sample standard deviations, call then \( \hat{\sigma}_X \) and \( \hat{\sigma}_Y \) we form what is refered to the t-test, a quantity we can actually compute:
+\[ 
+\sqrt{N} \frac{\bar{Y}-\bar{X}}{\sqrt{\hat{\sigma}_X^2 +\hat{\sigma}_Y^2}}
+ \]
+It turns out that for large enough N, the t-statistic is approximated by a normal distribution centered at 0 and with standard deviation 1. Our t-test is certainly unlikely to occur:</p>
+
+<pre><code class="r">ttest &lt;- sqrt(length(men) * (mean(men) - mean(women))/sqrt((var(men) + var(women))))
+ttest
+</code></pre>
+
+<pre><code>## [1] 127.3
+</code></pre>
+
+<pre><code class="r">2 * pnorm(-ttest)
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<p>But what is large enough? 30 is a rule a thumb and it implies our 10 is not enough. But for cases were the population values are normally distributed (like heights) the exact distribution can be derived and it is the t-distribution (where the t-statistic gets it&#39;s name). Not surprisingly the t-distribution has fatter tails (a bigged proportion of larger values) than the normal distribution since the standard deviation estimates add variability (the numerator is normal in this case). We can now obtain a p-value (we need to specify the <em>degrees of freedom</em>, which in the case of the sample ttest is the sum of the sample sizes minus 2.</p>
+
+<pre><code class="r">1 - pt(ttest, 20 - 2) + pt(-ttest, 20 - 2)  ##or
+</code></pre>
+
+<pre><code>## [1] 2.363e-28
+</code></pre>
+
+<pre><code class="r">2 * pt(-ttest, 20 - 2)
+</code></pre>
+
+<pre><code>## [1] 4.727e-28
+</code></pre>
+
+<p>As expected the p-value using the t-distribution is larger than the one obtained with the normal approximation which gives underestimates when N is small. Regardless, it seems the chance of observing a difference as large as what we saw under the null is pretty small. We should correctly predict that the average height of men is larger than the average height of women and also confirm that the distributions are approximately normal </p>
+
+<pre><code class="r">mean(dat$Height[dat$Gender == 1]) - mean(dat$Height[dat$Gender == 0])
+</code></pre>
+
+<pre><code>## [1] 5.186
+</code></pre>
+
+<pre><code class="r">library(rafalib)
+plot(0, 0, type = &quot;n&quot;, xlim = range(dat$Height), ylim = c(0, 1750), xlab = &quot;Heights&quot;, 
+    ylab = &quot;Frequency&quot;)
+shist(dat$Height[dat$Gender == 1], plotHist = FALSE, col = 1, unit = 1, add = TRUE)
+shist(dat$Height[dat$Gender == 0], plotHist = FALSE, col = 2, unit = 1, add = TRUE)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAdVBMVEX9/v0AAAAAADkAAGUAOWUAOY8AZo8AZrUbnnc5AAA5ADk5AGU5OY85ZrU5j9plAABlADllAGVlOTllOY9lZgBltf2POQCPOTmPOWWPZgCP29qP2/21ZgC1/v3ZXwLajzna/rXa/v39tWX924/9/rX9/tr9/v3ECyaXAAAAJ3RSTlP//////////////////////////////////////////////////wCDVpfZAAAACXBIWXMAAAsSAAALEgHS3X78AAAP00lEQVR4nO3dYWPayBGA4cNpGrvJxUmv5q7n2K7B8P9/Yi0BxgYJ7e7MrmZ33vdDncZmEDxZSXCAf9uSy36bewNonoB3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3mgR+QZbLCC+4LOUOeKcB/9rja3NvQ+mAf3V/+x9HAX9Y7M7k3cO/7eSBf1/z8I+Df3SQc/jHkT+3n2v4k3N5V/Ke4U8fwwF/rGX4M2fgjwHfan7hB5g9ybuFH0IG/i1f8J7kgZ/8yzbzCj9MDPyhVuFHhIE/BHyrAR/09+0FfNDftxfwgd9oLZ/w47zA7wK+1YAP/U5juYS/oAv8LuBDu+5KvfAMAR/xvbEO5jXRAx/xvZGuB/9oPOAjvjfYx1VejTzwEd8b7Pri/zWbR/jLtnHyZ0d14J3AB/yNyYCP++5JA8rAW4WfkI2BH0SuQx74yG9/aNi4CnngI7/9vhFh4G02JRsuD3zK6NlSgx8DBt5m2eGrkPcHP+kaCj/OC7zFpl0D5S/wViAPfMpP9AGfNnqmAlTD4C/hAm8v4HcBn/QjU7b25YFP+pFJWvPywCf9CPDb9U3/sfefHmJHz1SIasjPeIffLO/6r6vPz5GjZwr4XVL4l58PH76Gj56noN14wA9NwlqX97biwx6qTf+Ue/jty21Vx3gl+ABW4/LOzuoDn40FHvjhgK/s4Rzwh5yd3BWENy7v7OEc8IdY8Sk/F2ZqWt7ZwzngD/k6qw9+HSXwKSPDfl/xHIW/ZP7iTwaKNg3fndR1e/vzQ3zVK14F3rS8Anx/Qr/+PXb0DEW8Owr4iV7V19+eK3k4VxresrwY/vbq77+6Ff+tgodzwB+Tn9xtlosv21UVD+eKwxuWd/VwLuat7xd+NkITeBMBf8wTfNSn2wCfa3T54j7PavSnozDNysvP6vdP052f3QEf+8MlE6/4zfJ72ujiRX5mJfATvfy4TxpdPCX4SEqr8o6O8cC/D/jYHwdeOLp4sZ9LPfLzwAtHly7688h14K3KAx97CeCFo0unBB/vaFPeDXzC75oBPsvowgH/MeDjLpKgCPyspfw+uYHLpCialAc+7jLAi0cXbkZ4k/Je4NN+Z+z5pYAXjy4b8CcBH3epNEOD8k7gE387+NnFEgWBn6vUXwt/erlUQXvywEddDnj56KKlwp9eEHj56KIpwSf7AT9TwJ/mAz7ZXQvenjzwMZcEXmF0ydLhP15UwGdN3gW8wB149dEF04KX4AE/QxbgrckDH3Fh4DVGF0wJXkYHfPmAPw/48EsDrzK6XDJ3LXhj8sCHXxx4ldHlAn4gB/BCd+CVRxdLCn8YIIYzJQ988ADgdUYXC/ihgA+dIGcDvmzAD9U+vNwdeNXRpQJ+MOBDRyiwWZJvHl7BvZ+hgQZ8wTTguyHAa40uFPDDAR82RMfMkDzwYVOAVxtdKOCHA77gFODLpSQGvN7oMgE/EvAlxwBfKiUw4BVHF0kLTOsfkB154EO6bm/JAx8S8Iqji6Tjda13smBGHviArtUmAV8o4MdqG15RC3it0SUCfjTgAwJec3SJ9A7xwKuNLhHwowE/nSa8GXngJ7tWnAV8kRQXPPBqowsE/HjAT6YLb0W+ZXjlNdrWkgd+MuB1R+dPdU8P/Enrm0XXp4fY0fkD/kJS+M3yrv+6+vwcOTp/wF9ICv/y8+HD1/DR+dN8+kZrXDPwza94dXgj8uJj/Mut1WO88p4eeKXR2dOGb2tfD/xEwI9k9uGcPlNT+/p2T+6Av1gQ/Mvtl7EfsPtwTn1P39a+PnDFrxaLq/uhH2h9xeeANyEfvqvfLBeLu/OfMPtwDviLBcK/nsK9rviB/Xn66NwpP32jNvJs6jwFHuPPd+QXRh4SbJZCwF+s2YdzGfb0DuFXr0f3p8GzO7Mnd8BfLmxX/6MzX38dOMKbfTgH/OWC4HfLemBRO1vxLcmH7er7x2wDh/Gt2YdzeZ5rcQefY3Tesix44DVG5802vAH50LP6kd25YHTegJ8o8AmcgedqpaPzlge+oX19GPz4U7X7c7uh3UH98Oc8zuC3v76P/sRmOfY94GMmly5wV3/hGL97did+dNYy7em9wWcZnbVMC76hszvgxwO+exHG5/+N7dITR2cN+KkCn6v/vv72PPhcffronOU6xOvBzy4f+nDuFT7u9Tdtwrez5CNW/BMr3ht8/0LLRaQ78NHDS9bmWX2uczvgFUbnLB98M0/hyJ+5Sx2dM+Ani1jxT+NP2KeMzli+Q3w7+/oI+HoezmVc8B7hV9Xs6oGfLuYYH/lqDOCTrqBQLZ7V5zzEAy8enS/gA4rZ1Uc+oGsTvpWDfNiKf/py+B+90fkCPqCIF1tW83Au57mdL/jdCyp9rfhxljbkI/7rXKQ78OlXUaAGz+ozuwMvHJ2tauBnlW/wxZbAh9Teiy3zPphTu4KJK8leey+2rAh+Tvn2XmyZHb6NJd/eiy2BD6q9s/rc53ae4GOP7kGjcwV8UGHH+D8jH8mFjM5Vfvgm5Jt7lW3+Q7wj+CyjM1VgwQMvGp2puuDnkw+ATzu1mwm+xJ7eE/z6W+SD+OnReQI+MOCHAh74jNcSck3ZCoFPeo1tzfCTGj7gM43OUpkF38K+HviBpjHqX/LAnxdgUf+Sbwu+1IIHXjA6R8AHB/x5wAOf94pCry1HwJ8HfG3wxdwbkAf+LOC3wGe+qvDrU68l+ILu9csDfxrwXcDnvbKYa9QN+JNCFYBPHa0f8BE1BF90T68JP4s88CcB3wd85quLu07F2oEv7F77kgf+Y8DvAj73FcZeq1bAfyhGAPi00doBH1Uz8MX39JUf5IH/EPD7qoFXUgB+H/D5rzP+ijUC/n1xdz/wSaN1Az4y4N8Ve+/XLN8I/BwLHvi00aoBHxvw7wL+rUrg53gwp3e1SdctDfh3zQlfWh74Y/F3fcVLXgy/vhn7RCzgM1+7KCn8Zrn7rfIDv6moNviEe77ifb0U/vBBtwMfeFsOfq4FX/OSb2LFAx+f+Bg//ksMisHPdE6veNXJ159eC2f1wCcE/Ftzw5eVb+Hh3HyHeMfwFk7uZoSvd1+f4eHc4pBw00Kb073eJd/Aigc+pQYezgGfUv1n9bO6Ax8/Wqt54as9u9M4uev29gO/Yxz4clsRnwJ8f0K//j12tFYzw9e65BXg+19NNt9/nQM+KTH87dXff3Ur/vwX05WBn9u91n29/ORus1x82a5mezgHfFq1n9XP+B9odLdgF/Chzb7gaz3IA98F/GnAF9uGXcXkge8C/jTr8POf2+ltRB/wYVlY8HWe19cNb2LBAx83WiMTC77OfT3wwA8FfFAVfrop8MbgS8lXDW/j3G4LfNRohaws+BrP64FXuaPrW/LAq9zPwIePlmdnwVcoDzzwQ1mGN3NO3wV88GhxwEtyD691L9f25B3wKlPqW/L1wttyr27JA69VZUu+WnhTp3ZdwAeOFga8LOfwmvdwXQd54PXSkwd+PDv/geatqpZ8rfAGFzzwYaNlGVzwwIeNFmVxwdclD7xiwIeMFmUTvqbzes/w+ncu8AGjJRl1r2lfD7xmwAeMFmT0CL+tSR543ao5yvuFz3PHAm8dPtP9CnxGeMMLvh554JWr5fSuQnjDp3ZdlSx5r/D57lTgLcNnvE+BzwRvfMHXIg+8flXIVwdv372OE3vg9QM+R8ZP7fpq2NfXBl/Bgt9WIe8RPv9LWCvY2VcGX8eCB169OhZ8DfL+4Mt8jJx5+brga1nwuvBZtrgq+Hrc7X+6LfCZsv45Cd7gy/1GP+PyNcHXtODN7+wrgq/LXRdef8N9wRd0ty4PfL5My9cDL78b8zwgHk8XXlm+Gvjq1rs6vO72O4Iv7a6/5DVvQS3wNbqbXvOVwNd3gO9Th9e7EV7g52Df6svr3Y464Gt1N7yzrwK+Xvfto9W9fQ3wFbtn2Nkr3ZoK4KV33Syndcf0D/Mqt8c+fOXuVte8eXixu8pWiDIpbxxeem40+3LvsyhvG7763fy+DPLSW2YZvo3l3qcvL711duHl7HbcM8lLbqBVePETH6bYt1nkRfY24Ztj32Z4Dq8vmd4ifIvs21zyqfTm4B/bOrZ/KBN90k22Bd+yep/4Bo4VfcPtwD8+Cu+V62vr7F2P4ts5VtytF8OvbxZdnx5iRx97lN4Z19d1oB97fBTf6IFi7gUp/GZ5139dfX6OHH288Ym3/vqttMtbKJf+9P0ihX/5+fDhazdy3+NU4bdguKltq6bJeyrx34fg3su54mnOxMf4l1vxMZ5myM5ZPRUNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB77Sc8GS5fPDB/0CYkm9K6hDgK58CvNMpwDudArzTKcA7nQK80ymW4clgwDsNeKcB7zTgnQa804B3GvBOA95pwDstL/zTon+b7f5Lapvl4uq+f9vu+Vu1o6fItuWpf23LnXBbDlNk27K+6S+cuCl54X/dvf8imLL6/Ny9Uf/pi3SKdFu2W41t2U2RbcvLj/vtU/qmZIXf/Hn/7ktq+8/i6L6svyavj/0U4bZsd3e4cFv2U2Tbsv723G1H6qZkhe8/U+Hu8CW19bf/djvp/ob+SL6r9lOE2/Jat7yE27KfItuW/YpP3ZSs8Ot/9f+s91+Sp9zcdfd0t2+UwO+mCLdld39vhduynyLclt3BPXVT8p/Vi4/z+3/T4hV/vLjk2Np/FpB4xR8/USh5W7p/NqtPDyZXfJ8Y/uWP/qZJj/F/6MD/+r4Vn2/sp8i2Zb/UTR7ju23b/PWw/5I85le/k94sv0vP6vcHDMm27HbN0m3ZTZFty37Fp25K9sfx+8fOV5ID4q3kAevJFOm27HYa0m3ZTZFty2oheXqDZ+6cBrzTgHca8E4D3mnAOw14pwHvNOCdBrzTgHca8E4D3mnAOw14pwHvNOCdBrzTgHca8E5zCb97OfLxRclnf5K9PaqKgB/4DvCNdoTfveZ6/6d//Pt+/fU/i8Vd/7cr0Vu7zecc/lf/boT9n1ZX9+ub7937HF7/onuHivCd0KbzCX/TfzLBp4f9W573zt37O7/267/7C9GbYe3nE/6w4vs3Kl913N17Dz/Ad/86JG+5sZ5z+J+Hc7mzFd/9/UryNinj+Ybvj+z9If1wjH+DX+3fe95qzuFf9/Xdh23s/vTPtxW/WX56+MVZvZccPHo/BvyuzVL29unqAt5pwDsNeKcB7zTgnQa804B3GvBOA95pwDsNeKcB7zTgnQa804B3GvBO+z+ZqIosby+L6AAAAABJRU5ErkJggg==" alt="plot of chunk unnamed-chunk-8"/> </p>
+
+<p>Homework: is the distribution of dat$Gender approximated by normal, t or neither?</p>
+
+<p>Note that we obtained an estimate but never really reported it. We simply reported the p-value. Although common practice, we do not recommend it. Note that we can obtain statistically significant results that are not scientifically significant. The prefered way to report the estimate is the present both the estimate and its standard deviation: </p>
+
+<pre><code class="r">cat(mean(men) - mean(women), &quot;+/-&quot;, sqrt(var(men) + var(women))/sqrt(length(men)), 
+    &quot;\n&quot;)
+</code></pre>
+
+<pre><code>## 5.186 +/- 0.03595
+</code></pre>
+
+<p>We can also <em>confidence intervals</em> which should fall on the true difference for 95% of the random samples one could take.</p>
+
+<pre><code class="r">cat(mean(men) - mean(women) + c(-2, 2) * sqrt(var(men) + var(women))/sqrt(length(men)), 
+    sep = &quot;,&quot;)
+</code></pre>
+
+<pre><code>## 5.114,5.258
+</code></pre>
+
+<p>Note that the true difference is in fact included in the sample above</p>
+
+<h2>Monte Carlo simulation</h2>
+
+<h2>Gene expression</h2>
+
+<p>We have data for two strains of mice which we will refer to as strain 0 and 1. We want to know which genes are differentially expressed.  We extracted RNA from 12 randomely selected mice from each strain [CITE POOLING PAPER]. In one experiment we pooled the RNA from all individuals from each strain and then created 4 replicate samples from this pool. </p>
+
+<pre><code class="r">library(Biobase, quietly = TRUE, verbose = FALSE)
+</code></pre>
+
+<pre><code>## Loading required package: parallel
+## 
+## Attaching package: &#39;BiocGenerics&#39;
+## 
+## The following objects are masked from &#39;package:parallel&#39;:
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     xtabs
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, append, as.data.frame, as.vector, cbind,
+##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
+##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
+##     table, tapply, union, unique, unlist
+## 
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.
+</code></pre>
+
+<pre><code class="r">library(genefilter)
+</code></pre>
+
+<pre><code>## 
+## Attaching package: &#39;genefilter&#39;
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     anyNA
+</code></pre>
+
+<pre><code class="r">library(dagdata)
+</code></pre>
+
+<pre><code>## Error: there is no package called &#39;dagdata&#39;
+</code></pre>
+
+<pre><code class="r">data(maPooling)
+</code></pre>
+
+<pre><code>## Warning: data set &#39;maPooling&#39; not found
+</code></pre>
+
+<pre><code class="r">pd = pData(maPooling)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;pData&#39;: Error: object &#39;maPooling&#39; not found
+</code></pre>
+
+<pre><code class="r">pooled = which(rowSums(pd) == 12)
+</code></pre>
+
+<pre><code>## Error: object &#39;pd&#39; not found
+</code></pre>
+
+<pre><code class="r">y2 = exprs(maPooling[, pooled])
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;exprs&#39;: Error: object &#39;maPooling&#39; not found
+</code></pre>
+
+<pre><code class="r">group2 = factor(as.numeric(grepl(&quot;b&quot;, names(pooled))))
+</code></pre>
+
+<pre><code>## Error: object &#39;pooled&#39; not found
+</code></pre>
+
+<p>If we compare the mean expression between groups for each gene we find several showing consistent differences.</p>
+
+<pre><code class="r">### look at 2 pre-selected samples for illustration
+i = 11425
+j = 11878
+library(rafalib)
+mypar(1, 2)
+stripchart(split(y2[i, ], group2), vertical = TRUE, method = &quot;jitter&quot;, col = c(1, 
+    2), main = &quot;Gene 1&quot;, xlab = &quot;Group&quot;, pch = 15)
+</code></pre>
+
+<pre><code>## Error: object &#39;y2&#39; not found
+</code></pre>
+
+<pre><code class="r">stripchart(split(y2[j, ], group2), vertical = TRUE, method = &quot;jitter&quot;, col = c(1, 
+    2), main = &quot;Gene 2&quot;, xlab = &quot;Group&quot;, pch = 15)
+</code></pre>
+
+<pre><code>## Error: object &#39;y2&#39; not found
+</code></pre>
+
+<p>Note that if we compute a t-test from these values we obtain highly significant results</p>
+
+<pre><code class="r">library(genefilter)
+tt2 = rowttests(y2, group2)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;rowttests&#39;: Error: object &#39;y2&#39; not found
+</code></pre>
+
+<pre><code class="r">tt2$p.value[i]
+</code></pre>
+
+<pre><code>## Error: object &#39;tt2&#39; not found
+</code></pre>
+
+<pre><code class="r">tt2$p.value[j]
+</code></pre>
+
+<pre><code>## Error: object &#39;tt2&#39; not found
+</code></pre>
+
+<p>But would these results hold up if we selected another 24 mice? Note that the equation for the t-test we presented in the previous section include the population standard deviations. Are these quantities measured here? Note that it is being replicated here is the experimental protocol. We have created four <em>technical replicates</em> for each pooled sample. Gene 1 may be a highly variable gene within straing of mice while  Gene 2 a stable one, but we have no way of seeing this. </p>
+
+<p>It turns we also have microarray data for each individual mice. For each strain we have 12 <em>biological replicates</em>. </p>
+
+<pre><code class="r">individuals = which(rowSums(pd) == 1)
+</code></pre>
+
+<pre><code>## Error: object &#39;pd&#39; not found
+</code></pre>
+
+<pre><code class="r">## remove replicates
+individuals = individuals[-grep(&quot;tr&quot;, names(individuals))]
+</code></pre>
+
+<pre><code>## Error: object &#39;individuals&#39; not found
+</code></pre>
+
+<pre><code class="r">y = exprs(maPooling)[, individuals]
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;exprs&#39;: Error: object &#39;maPooling&#39; not found
+</code></pre>
+
+<pre><code class="r">group = factor(as.numeric(grepl(&quot;b&quot;, names(individuals))))
+</code></pre>
+
+<pre><code>## Error: object &#39;individuals&#39; not found
+</code></pre>
+
+<p>We can compute the sample variance for each gene and compare to the standard deviation obtained with the technical replicates.</p>
+
+<pre><code class="r">technicalsd &lt;- rowSds(y2[, group2 == 0])
+</code></pre>
+
+<pre><code>## Error: object &#39;y2&#39; not found
+</code></pre>
+
+<pre><code class="r">biologicalsd &lt;- rowSds(y[, group == 0])
+</code></pre>
+
+<pre><code>## Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">LIM = range(c(technicalsd, biologicalsd))
+</code></pre>
+
+<pre><code>## Error: object &#39;technicalsd&#39; not found
+</code></pre>
+
+<pre><code class="r">mypar(1, 1)
+boxplot(technicalsd, biologicalsd, names = c(&quot;technical&quot;, &quot;biological&quot;), ylab = &quot;standard deviation&quot;)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;boxplot&#39;: Error: object &#39;technicalsd&#39; not found
+</code></pre>
+
+<p>Note the biological variance is much larger than the technical one. And also that the variability of variances is also for biological variance. Here are the two genes we showed above but now for each individual mouse </p>
+
+<pre><code class="r">mypar(1, 2)
+stripchart(split(y[i, ], group), vertical = TRUE, method = &quot;jitter&quot;, col = c(1, 
+    2), xlab = &quot;Gene 1&quot;, pch = 15)
+</code></pre>
+
+<pre><code>## Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">points(c(1, 2), tapply(y[i, ], group, mean), pch = 4, cex = 1.5)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;X&#39; in selecting a method for function &#39;tapply&#39;: Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">stripchart(split(y[j, ], group), vertical = TRUE, method = &quot;jitter&quot;, col = c(1, 
+    2), xlab = &quot;Gene 2&quot;, pch = 15)
+</code></pre>
+
+<pre><code>## Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">points(c(1, 2), tapply(y[j, ], group, mean), pch = 4, cex = 1.5)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;X&#39; in selecting a method for function &#39;tapply&#39;: Error: object &#39;y&#39; not found
+</code></pre>
+
+<p>Note the p-value tell a different story</p>
+
+<pre><code class="r">library(genefilter)
+tt = rowttests(y, group)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;rowttests&#39;: Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">tt$p.value[i]
+</code></pre>
+
+<pre><code>## Error: object &#39;tt&#39; not found
+</code></pre>
+
+<pre><code class="r">tt$p.value[j]
+</code></pre>
+
+<pre><code>## Error: object &#39;tt&#39; not found
+</code></pre>
+
+<p>Which of these two genes do we feel more confident reporting as being differentially expressed? If another investigator takes another random sample of mice and tries the same experiment, which one do you think will replicate? Measuring biological vairability is essential if we want our conclusions to be about the strain of mice in general as opposed to the specific mice we have. </p>
+
+<p>Now which genes do we report as stastitically significant? For somewhat arbitrary reasons, in science p-values of 0.01 and 0.05 are used as cutoff. In this particular example we get </p>
+
+<pre><code class="r">sum(tt$p.value &lt; 0.01)
+</code></pre>
+
+<pre><code>## Error: object &#39;tt&#39; not found
+</code></pre>
+
+<pre><code class="r">sum(tt$p.value &lt; 0.05)
+</code></pre>
+
+<pre><code>## Error: object &#39;tt&#39; not found
+</code></pre>
+
+<h2>Multiple testing</h2>
+
+<p>But do we report all these genes? Let&#39;s explore what happens if we split the first group into two, forcing the null hypothesis to be true</p>
+
+<pre><code class="r">set.seed(0)
+shuffledIndex &lt;- factor(sample(c(0, 1), sum(group == 0), replace = TRUE))
+</code></pre>
+
+<pre><code>## Error: object &#39;group&#39; not found
+</code></pre>
+
+<pre><code class="r">nullt &lt;- rowttests(y[, group == 0], shuffledIndex)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;rowttests&#39;: Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">sum(nullt$p.value &lt; 0.01)
+</code></pre>
+
+<pre><code>## Error: object &#39;nullt&#39; not found
+</code></pre>
+
+<pre><code class="r">sum(nullt$p.value &lt; 0.05)
+</code></pre>
+
+<pre><code>## Error: object &#39;nullt&#39; not found
+</code></pre>
+
+<p>If we use the 0.05 cutoff we will be reporting 840 false postives. That&#39;s a lot! In a later module we will learn about <em>multiple testing</em> corrections. In the meantime now that p-values lose their meaning when we are combing through a long list of tests for the largest ones. An important statistical fact to know is that when the null hypothesis is true for independent tests and we compute the p-value for each, then the distribution of these p-values is uniform: any interval between 0 and 1 has the same proportion. </p>
+
+<pre><code class="r">mypar(1, 2)
+hist(tt$p.value, xlab = &quot;p-values&quot;, main = &quot;p-values from experiment&quot;, freq = FALSE, 
+    ylim = c(0, 4), col = 3)
+</code></pre>
+
+<pre><code>## Error: object &#39;tt&#39; not found
+</code></pre>
+
+<pre><code class="r">hist(nullt$p.value, xlab = &quot;p-values&quot;, main = &quot;p-values from shuffled data&quot;, 
+    freq = FALSE, ylim = c(0, 4), col = 3)
+</code></pre>
+
+<pre><code>## Error: object &#39;nullt&#39; not found
+</code></pre>
+
+<h2>Power</h2>
+
+<p>In practice it is quite common to have only three samples. When this is the case. the estimates of the standard deviation is quite variable. Note that we can get very small standard deviation estimates by chance, which turns the t-test large for cases with a very small difference. When performing many tests, as we do in genomcis, these are quite common. So if we focus on the p-value to prioritize genes we may end up cases with very small differences:</p>
+
+<pre><code class="r">smallset &lt;- c(1:3, 13:15)
+smallsett &lt;- rowttests(y[, smallset], group[smallset])
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;rowttests&#39;: Error: object &#39;y&#39; not found
+</code></pre>
+
+<pre><code class="r">mypar(1, 1)
+plot(smallsett$dm, -log10(smallsett$p.value), xlab = &quot;Effect size&quot;, ylab = &quot;log -10 (p-value)&quot;)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;plot&#39;: Error: object &#39;smallsett&#39; not found
+</code></pre>
+
+<pre><code class="r">abline(h = -log10(0.01), lty = 2)
+</code></pre>
+
+<pre><code>## Error: plot.new has not been called yet
+</code></pre>
+
+<pre><code class="r">abline(v = c(-1, 1) * log2(1.5), lty = 2)
+</code></pre>
+
+<pre><code>## Error: plot.new has not been called yet
+</code></pre>
+
+<p>In a later module we will leanr statistical techniques from improving the standard deviation estimates.</p>
+
+</body>
+
+</html>
+
