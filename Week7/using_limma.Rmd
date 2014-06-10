@@ -16,6 +16,7 @@ Here we also show the basic steps for performing a `limma` analysis. Note that t
 We start by loading the spike-in data which was introduced in lecture, which has already been normalized.
 
 ```{r}
+# source("http://bioconductor.org/biocLite.R")
 # biocLite("SpikeInSubset")
 library(SpikeInSubset)
 data(rma95)
@@ -25,6 +26,7 @@ fac <- factor(rep(1:2,each=3))
 We can now perform simple t-tests using the `rowttests` function in the `genefilter` package:
 
 ```{r}
+# biocLite("genefilter")
 library(genefilter)
 rtt <- rowttests(exprs(rma95),fac)
 ```

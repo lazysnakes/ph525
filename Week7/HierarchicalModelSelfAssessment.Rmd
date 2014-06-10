@@ -1,0 +1,70 @@
+Hierarchical Model Self-Assessment
+========================================================
+
+Download the Gasch yeast heat shock experiment from Bioconductor
+
+```{r}
+source("http://bioconductor.org/biocLite.R")
+biocLite("gaschYHS")
+library(gaschYHS)
+data(gaschYHS)
+e = gaschYHS
+
+#Subset to the first 8 samples, and remove genes with any NA values:
+anyNA = function(x) any(is.na(x))
+e = e[,1:8]
+e = e[!apply(exprs(e), 1, anyNA),]
+```
+
+This subset of samples contains already-normalized gene expression measurements for yeast after a heat shock, at the following times: 5, 10, 15, 20, 30, 40, 60, 80 minutes. We want to contrast the early response (up to 30 minutes) to the later response.
+
+We will perform a simple test first, dividing the samples into two groups: the first 5 samples and the last 3 samples:
+
+condition = factor(rep(1:2,c(5,3)))
+
+Run a limma analysis on this dataset, looking for the differences of the second group over the first group.
+
+Inspect the top genes using topTable (use the default sorting). What is the t-statistic for the gene YDR171W encoding heat shock protein?
+
+```{r}
+library(limma)
+condition = factor(rep(1:2,c(5,3)))
+fit <- lmFit(e, design=model.matrix(~ condition))
+colnames(coef(fit))
+fit <- eBayes(fit)
+tt <- topTable(fit, coef=2)
+tt
+```
+
+Continue working with the same object e as defined above.
+
+In the previous question, we did not make use of the quantitative time information we have, which is stored in pData(e)$time. Now suppose we want to measure which genes rise and fall with time in the first 5 samples:
+
+e = e[,1:5]
+
+time = pData(e)$time
+
+Specify a model matrix with a quadratic dependence on time using the I() function to perform the mathematic operation of squaring:
+
+design = model.matrix(~ time + I(time^2))
+
+Run a limma analysis to find genes which change according to a quadratic pattern over minutes.
+
+Use topTable() to find the 10 top ranked genes for the effect of time and time^2. Hint: this is accomplished by specifying coef=2:3 to topTable. (Use the default sorting, which is by the F-statistic)
+
+What is the F-statistic for the gene YGR211W?
+
+```{r}
+e = e[,1:5]
+
+time = pData(e)$time
+
+# design = model.matrix(~ time + I(time^2))
+
+fit2 = fit <- lmFit(e, model.matrix(~ time + I(time^2)))
+colnames(coef(fit2))
+fit2 <- eBayes(fit2)
+tt2 <- topTable(fit2, coef=2:3)
+tt2
+```
+
