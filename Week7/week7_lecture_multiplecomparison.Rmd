@@ -1,0 +1,46 @@
+Lecture Notes: Week 7 - Multiple Comparisons
+========================================================
+
+# The Z Statistic:
+```{r}
+# install.packages("xtable")
+library(xtable)
+```
+
+Lecture example: We have a small kitten, what is the chance of picking up another random kitten that is smaller?
+
+Z = Kitten height minus average kitten height divided by kitten population standard deviation
+
+Here is the formal formula
+
+$$H_0 : Z \thicksim N(0,1) $$
+$$p_1 = P(Z \leq Z_1|H_0) \equiv \Phi(Z_1)$$
+
+In plain english it means that the Z statistic is approximately normal (zero to one). When it is normal, define $$\Phi$$ as the probability that we observe a measurement smaller than the observation in question ($$Z_1$$) under the null hypothesis assuming a normal distribution. In R this is pnorm()
+
+## Example small Z scores
+
+We are describing the population of Z values under the null hypothesis...
+
+$$P(p \lt p_1) = P(\Phi(Z) \leq \Phi(Z_1)) = P(Z \leq Z_1) = p_1$$
+
+This shows that the Z transformation maps the Z statistic to its probability $$p_1$$, which is a uniform distribution. So this transformation tells us in other words what we already know. The P value is going to give us false positives, and in genomics, with a large number of experiments, the number of false positives increase with the number of experiments (20,000 experiments and P-value of .001 = 20 FP). So whoopdy doo, what's in the next section?
+
+# Video 2: Combining Null and Non-null tests
+
+# Video 3: Multiple Hypothesis Testing
+
+P-values suck. 
+
+## Definitions of error
+
+Type I = P(called sygnificatnt | null is true)
+Type II = P(Not called sygnificant | null is false)
+
+In genomics, 
+
+```{r}
+tab <- cbind(c("", "Null True", "Altern.True", "Total"), c("Called Significatn", "V", "S", "R"), c("Not Called Significant", "$$m_0 - V$$", "$$m_1 - S$$", "$$m - R$$"), c("Total", "$$m_0$$", "$$m_1$$", "$$m$$"))
+
+xtable(tab)
+```

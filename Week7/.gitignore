@@ -2,5 +2,5 @@
 *.Rhistory
 *.Rproj.user/*
 figure
-using_limma.html
-using_limma.md
+*.html
+*.md
