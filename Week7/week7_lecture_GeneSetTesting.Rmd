@@ -1,0 +1,50 @@
+Week 7: Gene Set Testing
+=======================================
+
+# Gene Sets
+
+Genes don't work alone, so don't analyze them like that
+
+Gene Sets:
+
+Gene Ontology
+http://www.geneontology.org/
+
+Kegg
+http://www.genome.jp/kegg/
+
+Handy Gene Sets
+http://www.bioconductor.org/packages/release/data/annotation
+
+Handy Gene Sets
+http://www.broadinstitute.org/gsea/msigdb/index.jsp
+
+Curated by Experts or found in microarray data
+
+## Example 1: Yq11 Gene Set
+
+Here are the Yq11 genes, are they differentially expressed more than other genes?
+
+ | Not in gene set | In gene set
+--- | --- | ---
+Not differentially expressed | 8796 | 9
+Differentially expressed | 11 | 4
+
+26% of genes in gene set are differentially expressed whne on ly 0.1% are expected, however the counts are small and the chi-square approximateion is inappropriate
+
+# Summary Statistics for Gene Sets
+
+Return to this video for notes
+
+# Hypothesis Testing
+
+Return to this video for notes
+
+# Permutations
+
+Return to this video for notes
+
+
+
+
+

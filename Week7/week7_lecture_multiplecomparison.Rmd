@@ -41,6 +41,87 @@ In genomics,
 
 ```{r}
 tab <- cbind(c("", "Null True", "Altern.True", "Total"), c("Called Significatn", "V", "S", "R"), c("Not Called Significant", "$$m_0 - V$$", "$$m_1 - S$$", "$$m - R$$"), c("Total", "$$m_0$$", "$$m_1$$", "$$m$$"))
-
-xtable(tab)
+tab
+#xtable(tab)
 ```
+
+with one test
+
+$$P(V = 1|m_0 = 1) \equiv p-value$$
+
+but with m >> 1, then this falls apart
+
+## Family-wise Error Rate (FWER)
+
+What is probablility of m = x when v = b - a specific FP rate for given n experiments
+
+Conservative approach used in GWAs
+
+## Bonferroni Correction
+
+list of samples for this set will be genes with p-values less than:
+
+$$ max \{ p_i : p_i \leq \frac{\alpha}{m} \}$$
+
+$$ typically: \alpha = 0.05 $$
+
+$$ P(V \geq 1) \leq P ( min_i(p_i \leq \frac{\alpha}{m} | H_0^{(m_1 = 0)}) $$
+
+$$ \leq \sigma_{i=1}^m P ( p_i \leq \frac{\alpha}{m} | H_0^i ) $$
+
+$$ = m \frac{\alpha}{m} $$
+
+This is no good for discovery experiments
+
+# False Discovery Rate (FDR)
+
+Don't control the FWER, instead control the percent of mistakes in the data.
+
+$$ FDR = \frac{false positives}{false negatives} = \frac{V}{V+S} = \frac{V}{R} $$
+
+Don't know V, have to estimate.
+
+## Benjamini-Hochberg (1995)
+
+order P-values from smalles to largest $p(i)$, then let $k$ be the largest index $i$ for which 
+
+$$p(i)$ \leq \frac{i}{m}\alpha$$
+
+Then reject $H_{(i)}$ for $i = 1,\dots,k$
+
+### Visual interpretation
+
+Choose points under line.
+
+```{r}
+x = seq(1,100,1)
+y = x / 100
+y[1] = 0.0001
+y[2] = 0.0001
+y[3] = 0.0002
+y[4] = 0.0005
+y[5] = 0.0005
+y[6] = 0.0006
+plot(x, y, xlab="i", ylab="p-value", main="alpha = 0.05")
+abline(0, 0.05 / 100)
+
+plot(x, y, xlab="i", ylab="p-value", main="alpha = 0.05", xlim=c(0,20))
+abline(0, 0.05 / 100)
+```
+
+Gives expected FDR < 0.05 (or $\alpha$)
+
+## Direct approach (Storey 2002)
+
+Less conservative
+
+let $k$ be the largest $i$ such that $\pi_0p_{(i)} \leq \frac{i}{m}\alpha$ and reject $H_{(i)}$ for $i = 1,\dots,k$
+
+Degenerates to B-H at $\pi_0 = 1$
+
+## FDR and q-value
+
+*FDR is a property of a list, the q-value is a property of a member of that list. it is the smallest FDR which would include the member of the list. in GWAs, the list member is a single gene.*
+
+
+
