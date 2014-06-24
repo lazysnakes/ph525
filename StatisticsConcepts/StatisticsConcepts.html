@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Statistical Concepts in PH525</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Statistical Concepts in PH525</h1>
+
+<h1>Central Limit Theorem</h1>
+
+<p>This is introduced in Week 3&#39;s Inference module, videos 3 and 4.</p>
+
+<h2>Background</h2>
+
+<p>The problem is: we have two populations that we want to compare. We can&#39;t measure the entire population, so we must measure a sample. However, there is sampling bias. How do we quantify sampling bias?</p>
+
+<ul>
+<li>Population Averages: \( \mu_{X} = \frac{1}{m} \sum_{i=1}^m x_{i} \)</li>
+<li>Observations: \( X_{1},\cdots,X_{M} \)</li>
+<li>Sample Averages: \( \overline{X} = \frac{1}{M} \sum_{i=1}^M X_{i} \) &ndash; the samples averages are
+&#39;Random Varialbles&#39;</li>
+<li>Population Standard Deviation: \( \sigma_{X}^2 = \frac{1}{m} \sum_{i=1}^m (x_{i} - \mu_{x})^{2} \)</li>
+</ul>
+
+<h2>Definition</h2>
+
+<p>The sample average follows a normal distribution centered at the population average with a standard deviation equal to th population standard deviation divided by the sample size, \( M \).</p>
+
+<p><em>Central Limit Theorem</em></p>
+
+<p>\( \overline{X} \sim N(\mu_x,\frac{\sigma_{x}}{\sqrt{M}}) \)</p>
+
+<h2>T-Test</h2>
+
+<p>Is there a difference between two populations? How can we predict based on measurements of a sample of each group? The CLT tells us that:</p>
+
+<p>\( \frac{\overline{X} - \overline{Y}}{\sqrt{\frac{\sigma_{X}^2}{M}+\frac{\sigma_{Y}^2}{N}}} \sim N(0,1) \)</p>
+
+<p>The difference between the sample averages also follows a normal distribution and the width of the distribution is inversely proportional to the sample sizes.</p>
+
+<p><em>Note:</em> There is a problem with this formula: we don&#39;t know the population standard deviations.</p>
+
+<p>We can use the sample variance to estimate the population standard deviation:</p>
+
+<p>\( s_{X}^2 = \frac{1}{M-1} \sum_{i=1}^M(X_{i} - \overline{X})^{2} \)</p>
+
+<p>This gives the <em>T-Statistic</em>:</p>
+
+<p>\( \frac{\overline{X} - \overline{Y}}{\sqrt{\frac{s_{X}^2}{M}+\frac{s_{Y}^2}{N}}} \sim N(0,1) \)</p>
+
+<p>For the T-Statistic to work, the sample sizes must be large. If they are not large, then the T distribution can be substituted for the normal distribution and you say that you have \( M + N - 2 \) degrees of freedom.</p>
+
+<h2>Confidence Intervals</h2>
+
+<p>Confidence intervals gives </p>
+
+<p>\( \overline{X} \pm 2 \frac{s_{X}}{\sqrt{M}} \)</p>
+
+</body>
+
+</html>
+
