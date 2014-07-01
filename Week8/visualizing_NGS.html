@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>IGV</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<p>We will use the following libraries to demonstrate visualization of NGS data.</p>
+
+<pre><code class="r">#biocLite(&quot;pasillaBamSubset&quot;)
+#biocLite(&quot;TxDb.Dmelanogaster.UCSC.dm3.ensGene&quot;)
+library(pasillaBamSubset)
+library(TxDb.Dmelanogaster.UCSC.dm3.ensGene)
+</code></pre>
+
+<pre><code>## Loading required package: GenomicFeatures
+## Loading required package: BiocGenerics
+## Loading required package: parallel
+## 
+## Attaching package: &#39;BiocGenerics&#39;
+## 
+## The following objects are masked from &#39;package:parallel&#39;:
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     xtabs
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, append, as.data.frame, as.vector, cbind,
+##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
+##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
+##     table, tapply, union, unique, unlist
+## 
+## Loading required package: IRanges
+## Loading required package: GenomicRanges
+## Loading required package: GenomeInfoDb
+## Loading required package: AnnotationDbi
+## Loading required package: Biobase
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.
+</code></pre>
+
+<pre><code class="r">fl1 &lt;- untreated1_chr4()
+fl2 &lt;- untreated3_chr4()
+</code></pre>
+
+<p>We will try four ways to look at NGS coverage: using the standalone Java program IGV, using simple <code>plot</code> commands, and using the <code>Gviz</code> and <code>ggbio</code> packages in Bioconductor.</p>
+
+<h2>IGV</h2>
+
+<p>Copy these files from the R library directory to the current working directory. First set the working directory to the source file location. We need to use the <code>Rsamtools</code> library to index the BAM files for using IGV.</p>
+
+<pre><code class="r">file.copy(from=fl1,to=basename(fl1))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">file.copy(from=fl2,to=basename(fl2))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">library(Rsamtools)
+</code></pre>
+
+<pre><code>## Loading required package: XVector
+## Loading required package: Biostrings
+</code></pre>
+
+<pre><code class="r">indexBam(basename(fl1))
+</code></pre>
+
+<pre><code>##       untreated1_chr4.bam 
+## &quot;untreated1_chr4.bam.bai&quot;
+</code></pre>
+
+<pre><code class="r">indexBam(basename(fl2))
+</code></pre>
+
+<pre><code>##       untreated3_chr4.bam 
+## &quot;untreated3_chr4.bam.bai&quot;
+</code></pre>
+
+<p>IGV is freely available for download here: <a href="https://www.broadinstitute.org/igv/home">https://www.broadinstitute.org/igv/home</a></p>
+
+<p>You will need to provide an email, and then you will get a download link.</p>
+
+<p>Using IGV, look for gene <em>lgs</em>.</p>
+
+<p>Note that if you have trouble downloading IGV, another option for visualization is the UCSC Genome Browser: <a href="http://genome.ucsc.edu/cgi-bin/hgTracks">http://genome.ucsc.edu/cgi-bin/hgTracks</a> </p>
+
+<p>The UCSC Genome Browser is a great resource, having many tracks involving gene annotations, conservation over multiple species, and the ENCODE epigentic tracks already available. However, the UCSC Genome Browser requires that you upload your genomic files to their server, or put your data on a publicly available server. This is not always possible if you are working with confidential data.</p>
+
+<h2>Simple plot</h2>
+
+<p>Next we will look at the same gene using the simple <code>plot</code> function in R.</p>
+
+<pre><code class="r">library(GenomicRanges)
+</code></pre>
+
+<p>Note: if you are using Bioconductor version 14, paired with R 3.1, you should also load this library. You do not need to load this library, and it will not be available to you, if you are using Bioconductor version 13, paired with R 3.0.x.</p>
+
+<pre><code class="r">library(GenomicAlignments)
+</code></pre>
+
+<pre><code>## Loading required package: BSgenome
+## 
+## Attaching package: &#39;BSgenome&#39;
+## 
+## The following object is masked from &#39;package:AnnotationDbi&#39;:
+## 
+##     species
+</code></pre>
+
+<p>We read in the alignments from the file <code>fl1</code>. Then we use the <code>coverage</code> function to tally up the basepair coverage. We then extract the subset of coverage which overlaps our gene of interest, and convert this coverage from an <code>RleList</code> into a <code>numeric</code> vector. Remember from Week 2, that <code>Rle</code> objects are compressed, such that repeating numbers are stored as a number and a length.</p>
+
+<pre><code class="r">x &lt;- readGAlignments(fl1)
+xcov &lt;- coverage(x)
+z &lt;- GRanges(&quot;chr4&quot;,IRanges(456500,466000))
+# Bioconductor 2.14
+xcov[z]
+</code></pre>
+
+<pre><code>## RleList of length 1
+## $chr4
+## integer-Rle of length 9501 with 1775 runs
+##   Lengths: 1252   10   52    4    7    2 ...   10    7   12  392   75 1041
+##   Values :    0    2    3    4    5    6 ...    3    2    1    0    1    0
+</code></pre>
+
+<pre><code class="r"># Bioconductor 2.13
+xcov$chr4[ranges(z)]
+</code></pre>
+
+<pre><code>## integer-Rle of length 9501 with 1775 runs
+##   Lengths: 1252   10   52    4    7    2 ...   10    7   12  392   75 1041
+##   Values :    0    2    3    4    5    6 ...    3    2    1    0    1    0
+</code></pre>
+
+<pre><code class="r">xnum &lt;- as.numeric(xcov$chr4[ranges(z)])
+plot(xnum)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-5"/> </p>
+
+<p>We can do the same for another file:</p>
+
+<pre><code class="r">y &lt;- readGAlignmentPairs(fl2)
+ycov &lt;- coverage(y)
+ynum &lt;- as.numeric(ycov$chr4[ranges(z)])
+plot(xnum, type=&quot;l&quot;, col=&quot;blue&quot;, lwd=2)
+lines(ynum, col=&quot;red&quot;, lwd=2)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAflBMVEX9/v0AAAAAADkAAGUAAP8AOTkAOWUAOY8AZrU5AAA5ADk5AGU5OWU5OY85ZrU5j9plAABlADllAGVlOQBlOY9lZmVltf2POQCPOTmPOWWPZgCP29qP2/21ZgC1/rW1/v3ajzna24/a/tra/v39tWX924/9/rX9/tr9/v3/AADoxqooAAAAKnRSTlP/////////////////////////////////////////////////////AP+MjuKjAAAACXBIWXMAAAsSAAALEgHS3X78AAAQ2UlEQVR4nO3dDXvayBVA4XV22sSbpvZmt/ZuN27cBuzR//+DRd/SaCRmNFeg4Z7ztMHGcBF6ESAvmJ8sqeynay8AXSfglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglQa80oBXGvBKA15pwCsNeKUBrzTglZYCf0d7bkP4hPPS1gGvNOCVBrzSgFca8EpLhj/eVzsHP3+PHU1XLRX+/fmpOjx8/BE5mq5aKvzb1++jw/DRdNXY4pWW/Bj/9shjfI7xrF5pG8AH/meAxIzZdPzNJ/Hkrry3nz7Eb7zFA5+WAHz1hP74z9jRiQGflgD88cuPK+zOAZ9WMvzjh7/+LLf4LxfenQM+rfQnd+/Pd5/s4eK7c8Cnle3uHPBp5QpvgE8LeKUBrzTglQa80oBXGvBKyxge+ZSAVxrwSgNeacArDXilAa804JUGvNKAVxrwSgNeacArDXilAa804JUGvNKAVxrwSgNeacArDXilAa804JUGvNKAVxrwSgNeadrh1d58gJeYkmHAS0zJMOAlpmQY8BJTMgx4iSkZBrzElAwDXmJKhgEvMSXDgJeYkmHAS0zJMOAlpmQY8BJTMgx4iSkZBrzElAwDXmJKhgEvMSXDgJeYkmHAS0zJMOAlpmRYhvCVlRy8Uvlk+ON99ZHhF/ykSeAlSoV/f36qDg/TzxEHfs9JfH788DB89OqAl4gtHnhf5x/j3x55jM8xntUD72sN/F3bqgU6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" alt="plot of chunk unnamed-chunk-6"/> </p>
+
+<p>We can zoom in on a single exon:</p>
+
+<pre><code class="r">plot(xnum, type=&quot;l&quot;, col=&quot;blue&quot;, lwd=2, xlim=c(6200,6600))
+lines(ynum, col=&quot;red&quot;, lwd=2)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-7"/> </p>
+
+<h2>Extracting the gene of interest using the transcript database</h2>
+
+<p>Suppose we are interested in visualizing the gene <em>lgs</em>. We can extract it from the transcript database <code>TxDb.Dmelanogaster.UCSC.dm3.ensGene</code> on Bioconductor, but first we need to look up the Ensembl gene name. We will use the functions that we learned in Week 7 to find the name.</p>
+
+<pre><code class="r"># biocLite(&quot;biomaRt&quot;)
+library(biomaRt)
+m &lt;- useMart(&quot;ensembl&quot;, dataset = &quot;dmelanogaster_gene_ensembl&quot;)
+lf &lt;- listFilters(m)
+lf[grep(&quot;name&quot;, lf$description, ignore.case=TRUE),]
+</code></pre>
+
+<pre><code>##                             name
+## 1                chromosome_name
+## 12  with_flybasename_translation
+## 15   with_flybasename_transcript
+## 19         with_flybasename_gene
+## 62              flybasename_gene
+## 63        flybasename_transcript
+## 64       flybasename_translation
+## 86                 wikigene_name
+## 98                go_parent_name
+## 194               so_parent_name
+##                                      description
+## 1                                Chromosome name
+## 12                with FlyBaseName protein ID(s)
+## 15             with FlyBaseName transcript ID(s)
+## 19                   with FlyBaseName gene ID(s)
+## 62           FlyBaseName Gene ID(s) [e.g. cul-2]
+## 63  FlyBaseName Transcript ID(s) [e.g. cul-2-RB]
+## 64     FlyBaseName Protein ID(s) [e.g. cul-2-PB]
+## 86                 WikiGene Name(s) [e.g. Ir21a]
+## 98                              Parent term name
+## 194                             Parent term name
+</code></pre>
+
+<pre><code class="r">map &lt;- getBM(mart = m,
+  attributes = c(&quot;ensembl_gene_id&quot;, &quot;flybasename_gene&quot;),
+  filters = &quot;flybasename_gene&quot;, 
+  values = &quot;lgs&quot;)
+map
+</code></pre>
+
+<pre><code>##   ensembl_gene_id flybasename_gene
+## 1     FBgn0039907              lgs
+</code></pre>
+
+<p>Now we extract the exons for each gene, and then the exons for the gene <em>lgs</em>.</p>
+
+<pre><code class="r">library(GenomicFeatures)
+grl &lt;- exonsBy(TxDb.Dmelanogaster.UCSC.dm3.ensGene, by=&quot;gene&quot;)
+gene &lt;- grl[[map$ensembl_gene_id[1]]]
+gene
+</code></pre>
+
+<pre><code>## GRanges with 6 ranges and 2 metadata columns:
+##       seqnames           ranges strand |   exon_id   exon_name
+##          &lt;Rle&gt;        &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]     chr4 [457583, 459544]      - |     63350        &lt;NA&gt;
+##   [2]     chr4 [459601, 459791]      - |     63351        &lt;NA&gt;
+##   [3]     chr4 [460074, 462077]      - |     63352        &lt;NA&gt;
+##   [4]     chr4 [462806, 463015]      - |     63353        &lt;NA&gt;
+##   [5]     chr4 [463490, 463780]      - |     63354        &lt;NA&gt;
+##   [6]     chr4 [463839, 464533]      - |     63355        &lt;NA&gt;
+##   ---
+##   seqlengths:
+##        chr2L     chr2R     chr3L ...   chrXHet   chrYHet chrUextra
+##     23011544  21146708  24543557 ...    204112    347038  29004656
+</code></pre>
+
+<p>Finally we can plot these ranges to see what it looks like:</p>
+
+<pre><code class="r">rg &lt;- range(gene)
+plot(c(start(rg), end(rg)), c(0,0), type=&quot;n&quot;, xlab=seqnames(gene)[1], ylab=&quot;&quot;)
+arrows(start(gene),rep(0,length(gene)),
+       end(gene),rep(0,length(gene)),
+       lwd=3, length=.1)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-10"/> </p>
+
+<p>But actually, the gene is on the minus strand. We should add a line which corrects for minus strand genes:</p>
+
+<pre><code class="r">plot(c(start(rg), end(rg)), c(0,0), type=&quot;n&quot;, xlab=seqnames(gene)[1], ylab=&quot;&quot;)
+arrows(start(gene),rep(0,length(gene)),
+       end(gene),rep(0,length(gene)),
+       lwd=3, length=.1, 
+       code=ifelse(as.character(strand(gene)[1]) == &quot;+&quot;, 2, 1))
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAdVBMVEX9/v0AAAAAADkAAGUAOY8AZrU5AAA5ADk5AGU5OWU5OY85ZrU5j7U5j9plAABlADllAGVlOQBlOY9lZgBltf2POQCPOTmPOWWPZgCPtY+P29qP2/21ZgC124+1/v3ajzna24/a/v39tWX924/9/rX9/tr9/v3aIpByAAAAJ3RSTlP//////////////////////////////////////////////////wCDVpfZAAAACXBIWXMAAAsSAAALEgHS3X78AAAJr0lEQVR4nO3c6XbaRgBA4cp2aOLUxGkhaeMUyqb3f8QiCecgs3hGI2vxvd+PcjiHkUZca4FU/JYL6be+J6B+GB7K8FCGhzI8lOGhDA9leCjDQxkeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU4aEMD2V4KMNDGR7K8FCGhzI8lOGhDA9leCjDQxkeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU4aEMD2V4KMNDGR7K8FCGhzI8lOGhDA9leCjDQxkeKiV8piF7w/AJY/XWDA9leCjDQxkeKjn8ZlJeI94uYhetXqWG381n5eP6bhW5aPUqNfz2cVF7DF+0euUeD5V8jt9OPcePkVf1UIaHaiv80cVd4D8DqFfu8VCGhzI8lOGhkr+5mx6u5E4/yBt+yJL3+N38odmi1av0Q/32y1OjRatXnuOhDA9leCjDQxkeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU4aEMD2V4KMNDGR7K8FCGhzI8lOGhDA9leCjDQxkeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU4aEMD2V4KMNDGR7K8FCGhzI8lOGhDA9leCjDQxkeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU4aEMD2V4KMNDGR7K8FCGh0oNv31c5Ntplt2tYhetXrUQvmifbz7HLlq9aiH85n5V7flxi1avksNPb358L/b4+5NjveGHLP3ibjfPPuTr25Md3vCD5lU9lOGh2gp/dHGXPWs+K70593gow0Mlh99MysO6V/Ujkxp+N5+Vj+vT72wNP2RtfFd//Bi+aPXKPR4q+Rxf/NOc5/jx8aoeyvBQhocyPJThoQwPZXgow0MZHsrwUIaHMjyU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" alt="plot of chunk unnamed-chunk-11"/> </p>
+
+<h2>Gviz</h2>
+
+<p>We will briefly show two packages for visualizing genomic data in Bioconductor. Note that each of these have extensive vignettes for plotting many kinds of data. We will show here how to make the coverage plots as before:</p>
+
+<pre><code class="r">#biocLite(&quot;Gviz&quot;)
+library(Gviz)
+</code></pre>
+
+<pre><code>## Error: there is no package called &#39;Gviz&#39;
+</code></pre>
+
+<pre><code class="r">gtrack &lt;- GenomeAxisTrack()
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;GenomeAxisTrack&quot;
+</code></pre>
+
+<pre><code class="r">atrack &lt;- AnnotationTrack(gene, name = &quot;Gene Model&quot;)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;AnnotationTrack&quot;
+</code></pre>
+
+<pre><code class="r">plotTracks(list(gtrack, atrack))
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;plotTracks&quot;
+</code></pre>
+
+<p>Extract the coverage. <code>Gviz</code> expects that data will be provided as <code>GRanges</code> objects, so we convert the <code>RleList</code> coverage to a <code>GRanges</code> object:</p>
+
+<pre><code class="r">xgr &lt;- as(xcov, &quot;GRanges&quot;)
+ygr &lt;- as(ycov, &quot;GRanges&quot;)
+dtrack1 &lt;- DataTrack(xgr[xgr %over% z], name = &quot;sample 1&quot;)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;DataTrack&quot;
+</code></pre>
+
+<pre><code class="r">dtrack2 &lt;- DataTrack(ygr[ygr %over% z], name = &quot;sample 2&quot;)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;DataTrack&quot;
+</code></pre>
+
+<pre><code class="r">plotTracks(list(gtrack, atrack, dtrack1, dtrack2))
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;plotTracks&quot;
+</code></pre>
+
+<pre><code class="r">plotTracks(list(gtrack, atrack, dtrack1, dtrack2), type=&quot;polygon&quot;)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;plotTracks&quot;
+</code></pre>
+
+<h2>ggbio</h2>
+
+<pre><code class="r">#biocLite(&quot;ggbio&quot;)
+library(ggbio)
+</code></pre>
+
+<pre><code>## Error: there is no package called &#39;ggbio&#39;
+</code></pre>
+
+<pre><code class="r">autoplot(gene)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;autoplot&quot;
+</code></pre>
+
+<pre><code class="r">autoplot(fl1, which=z)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;autoplot&quot;
+</code></pre>
+
+<pre><code class="r">autoplot(fl2, which=z)
+</code></pre>
+
+<pre><code>## Error: could not find function &quot;autoplot&quot;
+</code></pre>
+
+<h2>Footnotes</h2>
+
+<ul>
+<li><p>IGV 
+<a href="https://www.broadinstitute.org/igv/home">https://www.broadinstitute.org/igv/home</a></p></li>
+<li><p>Gviz
+<a href="http://www.bioconductor.org/packages/release/bioc/html/Gviz.html">http://www.bioconductor.org/packages/release/bioc/html/Gviz.html</a></p></li>
+<li><p>ggbio
+<a href="http://www.bioconductor.org/packages/release/bioc/html/ggbio.html">http://www.bioconductor.org/packages/release/bioc/html/ggbio.html</a></p></li>
+<li><p>UCSC Genome Browser: zooms and scrolls over chromosomes, showing the work of annotators worldwide
+<a href="http://genome.ucsc.edu/">http://genome.ucsc.edu/</a></p></li>
+<li><p>Ensembl genome browser: genome databases for vertebrates and other eukaryotic species
+<a href="http://ensembl.org">http://ensembl.org</a></p></li>
+<li><p>Roadmap Epigenome browser: public resource of human epigenomic data
+<a href="http://www.epigenomebrowser.org">http://www.epigenomebrowser.org</a>
+<a href="http://genomebrowser.wustl.edu/">http://genomebrowser.wustl.edu/</a>
+<a href="http://epigenomegateway.wustl.edu/">http://epigenomegateway.wustl.edu/</a></p></li>
+<li><p>&ldquo;Sashimi plots&rdquo; for RNA-Seq
+<a href="http://genes.mit.edu/burgelab/miso/docs/sashimi.html">http://genes.mit.edu/burgelab/miso/docs/sashimi.html</a></p></li>
+<li><p>Circos: designed for visualizing genomic data in a cirlce
+<a href="http://circos.ca/">http://circos.ca/</a></p></li>
+<li><p>SeqMonk: a tool to visualise and analyse high throughput mapped sequence data
+<a href="http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/">http://www.bioinformatics.babraham.ac.uk/projects/seqmonk/</a></p></li>
+</ul>
+
+</body>
+
+</html>
+
